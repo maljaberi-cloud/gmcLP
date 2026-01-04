@@ -31,30 +31,6 @@ const NEWS_ITEMS = [
     image:
       "https://images.unsplash.com/photo-1473876637954-4b493d59fd97?q=80&w=1000&auto=format&fit=crop",
   },
-  {
-    id: 4,
-    title: "Dubai Design Week: The 'Monolith' Installation",
-    date: "JUL 01, 2023",
-    category: "Events",
-    image:
-      "https://images.unsplash.com/photo-1518640165980-d3e0e2aa6c1e?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: 5,
-    title: "Q3 Financial Results: Record Growth in Asian Markets",
-    date: "JUN 20, 2023",
-    category: "Finance",
-    image:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: 6,
-    title: "Expansion of the Raysut Facility Complete",
-    date: "MAY 10, 2023",
-    category: "Operations",
-    image:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop",
-  },
 ];
 
 // --- Animation Variants ---
@@ -159,13 +135,13 @@ export default function NewsGrid() {
         <div className="flex flex-col md:flex-row items-end justify-between mb-12 md:mb-16 gap-6">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="h-[1px] w-8 bg-amber-600"></div>
-              <span className="font-mono text-[10px] text-amber-700 uppercase tracking-[0.3em] font-bold">
+              <div className="h-[1px] w-8 bg-[#f1c83d]"></div>
+              <span className="font-mono text-[10px] text-[#f1c83d] uppercase tracking-[0.3em] font-bold">
                 Intel & Reports
               </span>
             </div>
             <h2 className="font-serif text-4xl md:text-5xl text-slate-900 leading-tight">
-              <span className="italic text-amber-600">News</span>
+              <span className="italic text-[#f1c83d]">News</span>
             </h2>
           </div>
 

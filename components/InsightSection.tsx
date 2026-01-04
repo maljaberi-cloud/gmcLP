@@ -76,14 +76,14 @@ export default function CinematicVideo() {
         {/* --- Header (Dark Text) --- */}
         <div className="flex flex-col items-center text-center mb-16">
           <div className="flex items-center gap-2 mb-4 bg-stone-100 border border-stone-200 px-3 py-1 rounded-full">
-            <div className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-[#f1c83d] animate-pulse" />
             <span className="font-mono text-[10px] text-slate-600 uppercase tracking-[0.2em] font-bold">
               Live Operations
             </span>
           </div>
           <h2 className="font-serif text-5xl md:text-6xl text-slate-900 mb-6 leading-tight">
             Inside the{" "}
-            <span className="text-amber-600 italic font-light">Core.</span>
+            <span className="text-[#f1c83d] italic font-light">Core.</span>
           </h2>
           <p className="font-sans text-stone-500 max-w-lg mx-auto">
             Witness the fusion of raw nature and advanced robotics in our
@@ -132,10 +132,10 @@ export default function CinematicVideo() {
             <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-20 pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity">
               <div className="flex gap-4 text-[10px] font-mono text-white/90 uppercase font-bold tracking-widest">
                 <span className="flex items-center gap-2">
-                  <Activity className="w-3 h-3 text-amber-500" /> REC: ON
+                  <Activity className="w-3 h-3 text-[#f1c83d]" /> REC: ON
                 </span>
                 <span className="flex items-center gap-2">
-                  <Cpu className="w-3 h-3 text-amber-500" /> ISO 800
+                  <Cpu className="w-3 h-3 text--[#f1c83d]" /> ISO 800
                 </span>
               </div>
               <div className="text-[10px] font-mono text-white/70">
@@ -159,7 +159,7 @@ export default function CinematicVideo() {
                   opacity: isHovered ? 1 : 0.9,
                 }}
                 transition={{ duration: 0.3 }}
-                className="relative w-20 h-20 md:w-24 md:h-24 bg-amber-600 backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(217,119,6,0.6)]"
+                className="relative w-20 h-20 md:w-24 md:h-24 bg-[#f1c83d] backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(217,119,6,0.6)]"
               >
                 <div className="absolute inset-0 border border-white/30 rounded-full animate-[spin_10s_linear_infinite]" />
                 <Play className="w-8 h-8 text-white fill-white translate-x-1" />
@@ -186,7 +186,7 @@ export default function CinematicVideo() {
             {/* Bottom Bar Tech */}
             <div className="absolute bottom-6 left-6 z-20 pointer-events-none">
               <div className="flex items-center gap-2 text-white">
-                <Scan className="w-4 h-4 text-amber-500" />
+                <Scan className="w-4 h-4 text-[#f1c83d]" />
                 <span className="font-mono text-xs tracking-wider">
                   Sector 7 • Assembly Line
                 </span>

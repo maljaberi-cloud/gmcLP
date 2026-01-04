@@ -97,23 +97,23 @@ export default function HeroSectionOptimized() {
               <img
                 src="/logo.png"
                 alt="Global Mining"
-                className="w-8 h-8 opacity-90"
+                className="w-10 h-10 opacity-110"
               />
             </div>
           </motion.div>
 
-          {/* EYEBROW */}
+          {/* EYEBROW #f1c83d*/}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex items-center gap-4 mb-6"
           >
-            <span className="h-[1px] w-12 bg-gradient-to-r from-transparent to-amber-500/50"></span>
-            <span className="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]">
-              Global Marble Mfg.
+            <span className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#f1c83d]"></span>
+            <span className="font-mono text-xs text-[#f1c83d] tracking-[0.3em] uppercase drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]">
+              Ubar Stone
             </span>
-            <span className="h-[1px] w-12 bg-gradient-to-l from-transparent to-amber-500/50"></span>
+            <span className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#f1c83d]/50"></span>
           </motion.div>
 
           {/* HEADLINE */}
@@ -145,7 +145,7 @@ export default function HeroSectionOptimized() {
           >
             The manufacturing arm of{" "}
             <span className="text-stone-200 font-medium">
-              Global Mining Co. L.L.C.
+              Ubar Stone L.L.C.
             </span>{" "}
             specializing in high-grade Agglomerated Marble and Calcium Carbonate
             Powder.{" "}
@@ -158,7 +158,7 @@ export default function HeroSectionOptimized() {
             transition={{ delay: 0.8 }}
             className="flex flex-col sm:flex-row gap-5 justify-center"
           >
-            <button className="group relative px-8 py-4 bg-amber-500 text-stone-950 overflow-hidden rounded-sm hover:shadow-[0_0_40px_-10px_rgba(245,158,11,0.6)] transition-all duration-500">
+            <button className="group relative px-8 py-4 bg-[#f1c83d] text-stone-950 overflow-hidden rounded-sm hover:shadow-[0_0_40px_-10px_rgba(245,158,11,0.6)] transition-all duration-500">
               <span className="relative z-10 flex items-center gap-2  tracking-wide font-medium">
                 Download Brochure{" "}
                 <Download className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

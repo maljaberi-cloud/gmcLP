@@ -725,7 +725,7 @@ export default function ProductCollection() {
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="h-[1px] w-12 bg-amber-600/50"></div>
-            <span className="font-mono text-amber-700 text-[11px] tracking-[0.3em] uppercase">
+            <span className="font-mono text-[#f1c83d] text-[11px] tracking-[0.3em] uppercase">
               Architectural Stone Archive
             </span>
             <div className="h-[1px] w-12 bg-amber-600/50"></div>
@@ -733,9 +733,9 @@ export default function ProductCollection() {
 
           <h2 className="font-serif text-5xl md:text-7xl text-slate-900 leading-[1.1] mb-8">
             Engineered{" "}
-            <span className="italic text-amber-600 font-light">Perfection</span>{" "}
+            <span className="italic text-[#f1c83d] font-light">Perfection</span>{" "}
             <br />
-            Wait for <span className="text-amber-600">No One.</span>
+            Wait for <span className="text-[#f1c83d]">No One.</span>
           </h2>
 
           <p className="font-sans text-stone-500 text-lg leading-relaxed max-w-xl mx-auto font-light">

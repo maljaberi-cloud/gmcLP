@@ -113,7 +113,7 @@ const ProcessCard = ({ step }: { step: (typeof STEPS)[0] }) => {
       </div>
 
       {/* 2. Connection Line (The "Pipeline") */}
-      <div className="absolute top-[60%] left-8 w-[1px] h-8 bg-amber-500 z-10"></div>
+      <div className="absolute top-[60%] left-8 w-[1px] h-8 bg-[#f1c83d] z-10"></div>
       <div className="absolute top-[60%] left-[31px] w-3 h-3 rounded-full bg-white border-2 border-amber-500 -translate-y-1.5 z-20"></div>
 
       {/* 3. The Details (Bottom) */}
@@ -123,7 +123,7 @@ const ProcessCard = ({ step }: { step: (typeof STEPS)[0] }) => {
 
         <div className="pl-10">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-amber-600">{step.icon}</span>
+            <span className="text-[#f1c83d]">{step.icon}</span>
             <span className="font-mono text-[10px] text-stone-400 uppercase tracking-widest">
               Phase {step.id}
             </span>
@@ -174,7 +174,7 @@ export default function ManufacturingProcess() {
 
         {/* Static Header (Left Overlay) */}
         <div className="absolute top-10 left-8 lg:left-12 z-20 max-w-sm bg-white/80 backdrop-blur-md p-6 border border-stone-200 shadow-sm rounded-sm">
-          <div className="flex items-center gap-2 text-amber-600 mb-2">
+          <div className="flex items-center gap-2 text-[#f1c83d] mb-2">
             <Settings className="w-4 h-4 animate-spin-slow" />
             <span className="font-mono text-[10px] uppercase tracking-widest font-bold">
               Process Map
@@ -210,7 +210,7 @@ export default function ManufacturingProcess() {
         {/* Progress Bar (Bottom) */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-stone-200">
           <motion.div
-            className="h-full bg-amber-600"
+            className="h-full bg-[#f1c83d]"
             style={{
               width: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]),
             }}

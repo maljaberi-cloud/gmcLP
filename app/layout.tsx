@@ -9,7 +9,7 @@ const almarai = Almarai({
 });
 
 export const metadata: Metadata = {
-  title: "Rich | ريتش",
+  title: "Ubar Stone",
   description: "تجربة تسوق فاخرة بين يديك",
 };
 
