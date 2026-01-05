@@ -6,22 +6,28 @@ import InsightSection from "@/components/InsightSection";
 import NewsGrid from "@/components/NewsGrid";
 import Footer from "@/components/Footer";
 import MarbleStackExperience from "@/components/MarbleStackExperience";
+import UbarStoneLegacy from "@/components/UbarStoneLegacy";
+import UbarMarbleCollection from "@/components/UbarMarbleCollection";
+import UbarIndustrialSolutions from "@/components/UbarIndustrialSolutions";
+import UbarHeroLuxury from "@/components/UbarHeroOmnipotent";
+
+
 
 // 1. Import the Navbar
-import { Navbar } from "@/components/Navbar";
+import UbarNavbar from "@/components/Navbar";
+
 
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-white">
       {/* 2. Place it here, at the very top */}
-      <Navbar />
+      <UbarNavbar />
 
       <HeroSection />
-      <CompanyProfile />
-      <MarbleStackExperience />
-      <ProductCollection />
+      <UbarStoneLegacy />
+      <UbarMarbleCollection />
+      <UbarIndustrialSolutions />
 
-      <ManufacturingProcess />
       <NewsGrid />
       <InsightSection />
 

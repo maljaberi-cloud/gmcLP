@@ -1,26 +1,117 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Download, MapPin } from "lucide-react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useMotionTemplate,
+} from "framer-motion";
+import { ArrowRight, Download, MapPin, Globe, Award, Menu } from "lucide-react";
+
+// --- CLIENT DATA ---
+const CLIENTS = [
+  { name: "Hilton", id: 1 },
+  { name: "Marriott", id: 2 },
+  { name: "Emaar", id: 3 },
+  { name: "Zaha Hadid", id: 4 },
+  { name: "Four Seasons", id: 5 },
+  { name: "Ritz Carlton", id: 6 },
+  { name: "Damac", id: 7 },
+];
+
+// --- COMPONENTS ---
+
+
+const LogoMarquee = () => {
+  return (
+    <div className="w-full relative z-40 border-t border-white/5 bg-black/40 backdrop-blur-md py-4">
+      <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
+      <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10" />
+
+      <div className="container mx-auto px-6 mb-3 flex justify-between items-end">
+         <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-stone-600">Trusted by Global Visionaries</p>
+      </div>
+
+      <div className="flex overflow-hidden">
+        <motion.div
+          initial={{ x: 0 }}
+          animate={{ x: "-50%" }}
+          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+          className="flex gap-24 pr-24 items-center whitespace-nowrap"
+        >
+          {[...CLIENTS, ...CLIENTS, ...CLIENTS, ...CLIENTS].map((client, index) => (
+            <div
+              key={`${client.name}-${index}`}
+              className="flex items-center gap-3 opacity-30 hover:opacity-100 transition-opacity duration-500 cursor-pointer group"
+            >
+              <div className="h-2 w-2 bg-stone-600 rounded-full group-hover:bg-[#f1c83d] transition-colors" />
+              <span className="text-lg font-serif text-stone-300 group-hover:text-white tracking-wide">
+                {client.name}
+              </span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+};
 
 export default function HeroSectionOptimized() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
 
-  // --- PARALLAX PHYSICS ---
-  // We keep the movement subtle (0 to 300px) so it feels heavy/luxurious.
-  const yBackground = useTransform(scrollY, [0, 1000], [0, 300]);
+  // --- MOUSE SPOTLIGHT ---
+  let mouseX = useMotionValue(0);
+  let mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    let { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  // --- REFINED PARALLAX (Subtler movement) ---
+  const yBackground = useTransform(scrollY, [0, 1000], [0, 150]); // Reduced movement
   const opacityContent = useTransform(scrollY, [0, 400], [1, 0]);
 
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden bg-[#0a0a0a] text-white flex items-center justify-center"
+      onMouseMove={handleMouseMove}
+      className="relative h-screen w-full overflow-hidden bg-[#0a0a0a] text-white flex flex-col justify-between"
     >
+ 
+
       {/* =========================================
-          LAYER 1: TRIPTYCH MATERIAL BACKGROUND
+          LAYER 1: BACKGROUND (Zoomed Out for clean look)
          ========================================= */}
+      <motion.div
+        style={{ y: yBackground, scale: 1.05 }} // Reduced scale from 1.1 to 1.05
+        className="absolute inset-0 z-0 flex w-full h-full"
+      >
+        {/* Spotlight Effect */}
+        <motion.div
+          className="absolute inset-0 z-20 pointer-events-none mix-blend-overlay opacity-50"
+          style={{
+            background: useMotionTemplate`
+              radial-gradient(
+                800px circle at ${mouseX}px ${mouseY}px,
+                rgba(255, 255, 255, 0.10),
+                transparent 80%
+              )
+            `,
+          }}
+        />
+
+        {/* --- Background Image Composition --- */}
+        {/* We use a single high-quality marble texture or the triptych. 
+            For the "Clean" look, a unified dark texture often works best, 
+            but I will maintain the triptych logic with better blending. */}
+        
+        <div className="absolute inset-0 bg-[#050505]" /> {/* Base Dark Layer */}
+
       {/* --- LAYER 1: THE REFINED TRIPTYCH (Seamless Blending) --- */}
       <motion.div
         style={{ y: yBackground, scale: 1.1 }}
@@ -71,132 +162,110 @@ export default function HeroSectionOptimized() {
         {/* This creates a "floor" and "ceiling" of shadow to focus the eye */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#0a0a0a] z-30 pointer-events-none"></div>
       </motion.div>
+        
+        {/* Vignette to focus center */}
+        <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#0a0a0a]/40 to-[#0a0a0a] z-10" />
+      </motion.div>
+
+      {/* Noise Texture */}
+      <div className="absolute inset-0 z-10 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
 
       {/* =========================================
-          LAYER 2: CINEMATIC NOISE
-         ========================================= */}
-      <div className="absolute inset-0 z-10 opacity-[0.04] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
-
-      {/* =========================================
-          LAYER 3: CONTENT INTERFACE
+          LAYER 2: MAIN CONTENT (Centered & Scaled Down)
          ========================================= */}
       <motion.div
         style={{ opacity: opacityContent }}
-        className="container mx-auto px-6 relative z-30 h-full flex flex-col justify-center items-center text-center"
+        className="container mx-auto px-6 relative z-30 flex-grow flex flex-col justify-center items-center text-center mt-16"
       >
         <div className="max-w-4xl flex flex-col items-center">
-          {/* LOGO */}
+          
+          {/* BADGE */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-8"
+            className="mb-6 flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-black/20 backdrop-blur-md"
           >
-            <div className="h-16 w-16 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer">
-              {/* ⚠️ Ensure your logo is high-res png or svg */}
-              <img
-                src="/logo.png"
-                alt="Global Mining"
-                className="w-10 h-10 opacity-110"
-              />
-            </div>
-          </motion.div>
-
-          {/* EYEBROW #f1c83d*/}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex items-center gap-4 mb-6"
-          >
-            <span className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#f1c83d]"></span>
-            <span className="font-mono text-xs text-[#f1c83d] tracking-[0.3em] uppercase drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]">
-              Ubar Stone
+            <div className="w-1.5 h-1.5 rounded-full bg-[#f1c83d]" />
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-stone-400">
+              150 MILLION YEAR LEGACY
             </span>
-            <span className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#f1c83d]/50"></span>
           </motion.div>
 
-          {/* HEADLINE */}
-          <div className="relative mb-8">
-            <motion.h1
-              initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }} // Custom bezier for "Heavy" feel
-              className="text-[10vw] md:text-[6.5rem] leading-[0.85] font-light tracking-tighter"
+          {/* HEADLINE - REFINED TYPOGRAPHY */}
+          {/* Changed from 12vw to specific rems for better control */}
+          <div className="relative mb-6">
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="flex flex-col items-center justify-center leading-none"
             >
-              <span className="font-serif italic text-stone-400 block mix-blend-difference">
-                Premium Artificial
+              <span className="font-serif italic text-4xl md:text-6xl text-stone-500 mb-2">
+                Premium
               </span>
-              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 block">
-                Marble & Onyx
+              <span className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-stone-200 to-stone-500 drop-shadow-2xl">
+OMANI MARBLE & STONE
               </span>
-              <span className="font-serif italic text-stone-500 block">
-                Solutions.
+              <span className="text-sm md:text-xl font-light text-stone-400 mt-4 tracking-[0.4em] uppercase">
+                Architectural Solutions
               </span>
             </motion.h1>
           </div>
 
-          {/* DESCRIPTION */}
+          {/* DESCRIPTION - LIGHTER & SMALLER */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="text-lg text-stone-400 font-light leading-relaxed max-w-2xl mb-12"
+            transition={{ delay: 0.5 }}
+            className="text-base md:text-lg text-stone-400 font-light leading-relaxed max-w-xl mb-10"
           >
-            The manufacturing arm of{" "}
-            <span className="text-stone-200 font-medium">
-              Ubar Stone L.L.C.
-            </span>{" "}
-            specializing in high-grade Agglomerated Marble and Calcium Carbonate
-            Powder.{" "}
+            Every great project starts with <span className="text-white">an idea.</span>We shape luxury homes and landmarks, offering not just stone but a story etched with timeless secrets.
           </motion.p>
 
-          {/* BUTTONS */}
+          {/* BUTTONS - ELEGANT SIZING */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-5 justify-center"
+            transition={{ delay: 0.7 }}
+            className="flex flex-col sm:flex-row gap-4"
           >
-            <button className="group relative px-8 py-4 bg-[#f1c83d] text-stone-950 overflow-hidden rounded-sm hover:shadow-[0_0_40px_-10px_rgba(245,158,11,0.6)] transition-all duration-500">
-              <span className="relative z-10 flex items-center gap-2  tracking-wide font-medium">
-                Download Brochure{" "}
-                <Download className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-              {/* Button Shine Effect */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full z-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-in-out" />
+            <button className="group relative px-8 py-3 bg-[#f1c83d] text-black text-sm font-bold uppercase tracking-wider rounded-sm hover:bg-[#dgb330] transition-all overflow-hidden">
+               <span className="relative z-10 flex items-center gap-2">
+                 Download Catalogue <Download size={16} />
+               </span>
+               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"/>
+            </button>
+
+            <button className="group px-8 py-3 border border-white/20 text-white text-sm font-medium uppercase tracking-wider rounded-sm hover:border-white hover:bg-white/5 transition-all flex items-center gap-2 backdrop-blur-sm">
+               Explore Gallery <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform"/>
             </button>
           </motion.div>
+
         </div>
       </motion.div>
 
       {/* =========================================
-          LAYER 4: TECHNICAL OVERLAYS
+          LAYER 3: BOTTOM DATA
          ========================================= */}
-      <div className="absolute bottom-8 left-8 flex flex-col gap-1 hidden md:flex">
-        <span className="text-stone-600 text-[10px] font-mono tracking-widest uppercase">
-          System Status
-        </span>
-        <div className="flex items-center gap-2">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span className="text-stone-400 text-xs font-mono">OPERATIONAL</span>
+      <div className="relative z-30 flex flex-col">
+        
+        {/* Floating Technical Stats */}
+        <div className="hidden md:flex justify-between px-8 pb-2 text-[10px] font-mono text-stone-600 tracking-wider uppercase">
+          <div className="flex gap-4">
+             <span className="flex items-center gap-1"><Globe size={10} /> Global Shipping: Active</span>
+             <span className="flex items-center gap-1"><Award size={10} /> ISO 9001:2015</span>
+          </div>
+          <div className="flex gap-4 text-right">
+             <span className="text-stone-500">Sultanate of Oman</span>
+             <span>23.5880° N, 58.3829° E</span>
+          </div>
         </div>
+
+        {/* MARQUEE */}
+        <LogoMarquee />
       </div>
 
-      <div className="absolute bottom-8 right-8 text-right hidden md:block group cursor-crosshair">
-        <div className="flex items-center justify-end gap-2 text-stone-600 group-hover:text-amber-500 transition-colors mb-1">
-          <MapPin size={12} />
-        </div>
-        <div className="text-sm font-bold font-sans text-stone-400 group-hover:text-white transition-colors">
-          Sultanate of Oman
-        </div>
-        <div className="text-[10px] text-stone-600 font-mono mt-1 uppercase tracking-widest group-hover:text-stone-400 transition-colors">
-          23.5880° N, 58.3829° E
-        </div>
-      </div>
     </section>
   );
 }

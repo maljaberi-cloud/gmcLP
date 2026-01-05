@@ -105,7 +105,7 @@ export default function MarbleGalleryMinimal() {
         {/* === LEFT COLUMN: CONTENT & DISPLAY === */}
         <div className="lg:col-span-8 flex flex-col pt-4 lg:pt-8 sticky top-10">
           {/* 1. Title Area */}
-          <div className="mb-8 overflow-hidden">
+          <div className="mb-2 overflow-hidden">
             <motion.div
               key={activeProduct.id}
               initial={{ opacity: 0, y: 40 }}
@@ -120,7 +120,7 @@ export default function MarbleGalleryMinimal() {
                   ID: {activeProduct.id.toString().padStart(3, "0")}
                 </span>
               </div>
-              <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-serif leading-[0.9] text-black tracking-tight mb-6">
+              <h1 className="text-6xl md:text-6xl lg:text-[5rem] font-serif leading-[0.9] text-black tracking-tight mb-6">
                 {activeProduct.shortName}
               </h1>
             </motion.div>
