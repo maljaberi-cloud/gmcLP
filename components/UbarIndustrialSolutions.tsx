@@ -1,214 +1,313 @@
-'use client';
+"use client";
 
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
-  Factory, 
-  FlaskConical, 
-  Atom, 
-  Flame, 
-  Droplets, 
-  Sprout, 
-  BrickWall, 
-  Leaf, 
-  Wheat, 
-  Package,
-  Beaker 
-} from 'lucide-react';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Beaker,
+  ArrowUpRight,
+  Target,
+  ScanLine,
+  Atom,
+  Microscope,
+} from "lucide-react";
 
-const UbarIndustrialSolutions = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
+// --- CONFIGURATION & DATA ---
+const COLORS = {
+  primary: "#f1c83d",
+  secondary: "#6a6931",
+  dark: "#1a1a1a",
+  light: "#ffffff",
+  grid: "#e5e5e5",
+};
 
-  const yParallax = useTransform(scrollYProgress, [0, 1], [30, -30]);
+const PRODUCTS = [
+  {
+    id: "01",
+    name: "Quicklime",
+    chemical: "CaO",
+    sub: "Calcium Oxide",
+    desc: "High-purity calcination for metallurgy and chemical synthesis.",
+    stats: [
+      { label: "Purity", value: "96.5%" },
+      { label: "Reactivity", value: "High" },
+    ],
+    tags: ["Steel", "Water Treatment", "Chemicals"],
+    image:
+      "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=2672&auto=format&fit=crop",
+  },
+  {
+    id: "02",
+    name: "Limestone",
+    chemical: "CaCO₃",
+    sub: "Calcium Carbonate",
+    desc: "Micronized mineral fillers for construction and agriculture.",
+    stats: [
+      { label: "Whiteness", value: "98%" },
+      { label: "Mesh", value: "200-400" },
+    ],
+    tags: ["Construction", "Agriculture", "Plastics"],
+    image:
+      "https://images.unsplash.com/photo-1595846519845-68e298c2edd8?q=80&w=2670&auto=format&fit=crop",
+  },
+];
 
-  // --- DATA SOURCE ---
-  const PRODUCTS = [
-    {
-      id: "quicklime",
-      name: "Quicklime",
-      formula: "CaO",
-      scientificName: "Calcium Oxide",
-      description: "High-purity powder produced from selected limestone under controlled calcination.",
-      image: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=2944&auto=format&fit=crop", // Placeholder: White Industrial Powder
-      themeColor: "#f1c83d", // Gold for Heat
-      specs: [
-        { label: "Content", value: "CaO 90.00 Min" },
-        { label: "Impurity", value: "Low Levels" }
-      ],
-      // New Application Structure with Icons
-      applications: [
-        { name: "Metallurgy", icon: <Flame size={20} /> },
-        { name: "Water Trt.", icon: <Droplets size={20} /> },
-        { name: "Chemical", icon: <Beaker size={20} /> },
-        { name: "Soil Stab.", icon: <Sprout size={20} /> }
-      ]
-    },
-    {
-      id: "limestone",
-      name: "Limestone Pwd",
-      formula: "CaCO₃",
-      scientificName: "Calcium Carbonate",
-      description: "Produced through controlled grinding for consistent chemical properties.",
-      image: "https://images.unsplash.com/photo-1525816990666-c9580b39366e?q=80&w=2670&auto=format&fit=crop", // Placeholder: White Stone Texture
-      themeColor: "#6a6931", // Olive for Earth
-      specs: [
-        { label: "Content", value: "High CaCO₃" },
-        { label: "Appearance", value: "Bright White" }
-      ],
-      // New Application Structure with Icons
-      applications: [
-        { name: "Fillers", icon: <Package size={20} /> },
-        { name: "Construction", icon: <BrickWall size={20} /> },
-        { name: "Environment", icon: <Leaf size={20} /> },
-        { name: "Agriculture", icon: <Wheat size={20} /> }
-      ]
-    }
-  ];
+const IndustrialPhenomenon = () => {
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   return (
-    <section 
-      ref={containerRef}
-      className="relative w-full py-24 px-6 md:px-12 lg:px-24 bg-white text-slate-900 overflow-hidden"
-    >
-      {/* --- BACKGROUND AMBIENCE --- */}
-      <motion.div 
-        style={{ y: yParallax }}
-        className="absolute top-[-10%] left-[20%] w-[800px] h-[800px] rounded-full bg-slate-100 blur-[100px] opacity-60 pointer-events-none z-0"
-      />
-      
-      {/* Chemical Formula Watermarks */}
-      <div className="absolute top-20 right-10 text-9xl font-bold text-slate-50 opacity-[0.03] select-none pointer-events-none font-mono">
-        CaO
-      </div>
-      <div className="absolute bottom-20 left-10 text-9xl font-bold text-slate-50 opacity-[0.03] select-none pointer-events-none font-mono">
-        CaCO3
+    <section className="relative w-full min-h-screen bg-white font-sans selection:bg-[#f1c83d] selection:text-black overflow-hidden py-20 lg:py-32">
+      {/* --- TECHNICAL BACKGROUND GRID --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div
+          className="w-full h-full opacity-40"
+          style={{
+            backgroundImage: `linear-gradient(${COLORS.grid} 1px, transparent 1px), linear-gradient(90deg, ${COLORS.grid} 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
+          }}
+        />
+        {/* Decorative Crosshairs */}
+        <div className="absolute top-10 left-10 text-[#6a6931]/30">
+          <Crosshair />
+        </div>
+        <div className="absolute bottom-10 right-10 text-[#6a6931]/30">
+          <Crosshair />
+        </div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
-        
-        {/* --- HEADER --- */}
-        <div className="text-center max-w-4xl mx-auto mb-20">
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center justify-center gap-3 mb-6"
-          >
-            <Factory className="w-5 h-5 text-[#6a6931]" />
-            <span className="text-xs font-bold tracking-[0.25em] text-[#6a6931] uppercase">
-              Industrial Solutions
-            </span>
-          </motion.div>
+      <div className="container mx-auto px-4 lg:px-8 relative z-10 h-full flex flex-col">
+        {/* --- HEADER SECTION: SWISS GRID STYLE --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20 border-b border-[#6a6931]/20 pb-12">
+          {/* Brand / Label */}
+          <div className="lg:col-span-2 flex flex-col justify-between h-full">
+            <div className="flex items-center gap-2 text-[#6a6931] font-mono text-xs uppercase tracking-widest font-bold">
+              <ScanLine className="w-4 h-4" />
+              <span>Mat.Eng-Sys</span>
+            </div>
+          </div>
 
-          <motion.h2 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-serif text-[#1a1a1a] mb-8 leading-tight"
-          >
-            The Core.<br />
-            <span className="text-3xl md:text-4xl lg:text-5xl text-slate-400 font-light block mt-2">
-              Where Industry Begins With Stone.
-            </span>
-          </motion.h2>
+          {/* Main Title */}
+          <div className="lg:col-span-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="text-5xl lg:text-7xl font-serif text-[#1a1a1a] leading-[0.95] tracking-tighter"
+            >
+              Industry starts <br />
+              <span className="italic text-[#6a6931]">at the molecule.</span>
+            </motion.h1>
+          </div>
+
+          {/* Description */}
+          <div className="lg:col-span-4 flex flex-col justify-end">
+            <p className="text-[#6a6931] text-lg leading-relaxed max-w-sm ml-auto">
+              Extracting potential from the earth. Precision-processed minerals
+              forming the bedrock of modern manufacturing.
+            </p>
+          </div>
         </div>
 
-        {/* --- THE PRODUCT CARDS --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        {/* --- INTERACTIVE CARD DISPLAY --- */}
+        <div className="flex flex-col lg:flex-row h-auto lg:h-[650px] gap-2 lg:gap-0">
           {PRODUCTS.map((product, index) => (
-            <motion.div
+            <MaterialCard
               key={product.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className="group relative bg-white border border-slate-200 overflow-hidden flex flex-col h-full hover:shadow-2xl hover:shadow-slate-200/50 transition-shadow duration-500"
-            >
-              
-              {/* --- 1. VISUAL SECTION (IMAGE) --- */}
-              <div className="relative h-64 overflow-hidden">
-                <img 
-                  src={product.image} 
-                  alt={product.name} 
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-                
-                {/* Floating Formula Badge */}
-                <div className="absolute bottom-0 left-0 bg-white px-6 py-3 border-t-2 border-r-2 border-[#f1c83d]" 
-                     style={{ borderColor: product.themeColor }}>
-                   <span className="font-serif text-2xl font-bold text-[#1a1a1a]">{product.formula}</span>
-                </div>
-              </div>
-
-              {/* --- 2. INFORMATION SECTION --- */}
-              <div className="p-8 md:p-10 flex flex-col flex-grow">
-                
-                {/* Title */}
-                <div className="mb-6">
-                   <div className="flex justify-between items-baseline mb-1">
-                      <h3 className="text-3xl font-serif text-[#1a1a1a]">{product.name}</h3>
-                      <div className="p-2 bg-slate-50 rounded-full text-slate-400">
-                        {index === 0 ? <FlaskConical size={18}/> : <Atom size={18}/>}
-                      </div>
-                   </div>
-                   <p className="text-[#6a6931] text-sm font-medium uppercase tracking-wider">{product.scientificName}</p>
-                </div>
-
-                <p className="text-slate-500 leading-relaxed mb-8 flex-grow">
-                  {product.description}
-                </p>
-
-                {/* Specs Grid */}
-                <div className="grid grid-cols-2 gap-4 mb-10 pb-8 border-b border-slate-100">
-                  {product.specs.map((spec, i) => (
-                    <div key={i}>
-                      <span className="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">{spec.label}</span>
-                      <span className="block text-sm font-mono font-bold text-[#1a1a1a]">{spec.value}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* --- 3. APPLICATIONS ROW (The Highlight) --- */}
-                <div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: product.themeColor }} />
-                    <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Key Applications</span>
-                  </div>
-                  
-                  <div className="grid grid-cols-4 gap-2">
-                    {product.applications.map((app, i) => (
-                      <div 
-                        key={i} 
-                        className="flex flex-col items-center justify-center p-3 rounded-lg bg-slate-50 border border-slate-100 group-hover:border-slate-200 transition-colors text-center"
-                      >
-                        <div className="mb-2 text-slate-400 group-hover:text-[#1a1a1a] transition-colors duration-300">
-                          {app.icon}
-                        </div>
-                        <span className="text-[10px] font-medium text-slate-500 leading-tight">
-                          {app.name}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-              </div>
-              
-              {/* Colored Bottom Border */}
-              <div className="h-1.5 w-full" style={{ backgroundColor: product.themeColor }} />
-            </motion.div>
+              data={product}
+              isActive={activeId === product.id}
+              isPeerActive={activeId !== null && activeId !== product.id}
+              onHover={() => setActiveId(product.id)}
+              onLeave={() => setActiveId(null)}
+              index={index}
+            />
           ))}
         </div>
-        
       </div>
     </section>
   );
 };
 
-export default UbarIndustrialSolutions;
+// --- COMPONENT: THE MATERIAL CARD ---
+const MaterialCard = ({
+  data,
+  isActive,
+  isPeerActive,
+  onHover,
+  onLeave,
+  index,
+}: any) => {
+  return (
+    <motion.div
+      layout
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+      className={`
+        relative group overflow-hidden border-r border-l border-t lg:border-t-0 border-b border-[#6a6931]/20
+        ${isActive ? "lg:flex-[3]" : isPeerActive ? "lg:flex-[1] grayscale brightness-90" : "lg:flex-[1]"}
+        h-[500px] lg:h-auto flex flex-col transition-all duration-700 ease-[0.22,1,0.36,1]
+        bg-white
+      `}
+    >
+      {/* 1. BACKGROUND IMAGE LAYER (Reveals on Active) */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <motion.div
+          animate={{
+            scale: isActive ? 1.05 : 1,
+            opacity: isActive ? 1 : 0,
+          }}
+          transition={{ duration: 0.8 }}
+          className="w-full h-full"
+        >
+          <img
+            src={data.image}
+            alt={data.name}
+            className="w-full h-full object-cover"
+          />
+          {/* Overlay Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-90" />
+        </motion.div>
+      </div>
+
+      {/* 2. TOP TECHNICAL HEADER (Always Visible) */}
+      <div className="relative z-20 p-6 flex justify-between items-start border-b border-[#6a6931]/10 group-hover:border-white/20 transition-colors">
+        <div className="flex items-center gap-3">
+          <span
+            className={`font-mono text-sm font-bold px-2 py-1 rounded transition-colors ${
+              isActive
+                ? "bg-[#f1c83d] text-black"
+                : "bg-[#6a6931]/10 text-[#6a6931]"
+            }`}
+          >
+            {data.id}
+          </span>
+          <span
+            className={`font-mono text-xs uppercase tracking-widest transition-colors ${isActive ? "text-white/70" : "text-gray-400"}`}
+          >
+            {data.sub}
+          </span>
+        </div>
+        <motion.div
+          animate={{ rotate: isActive ? 45 : 0 }}
+          className={`w-8 h-8 flex items-center justify-center rounded-full border transition-colors ${
+            isActive
+              ? "border-white/30 bg-white/10 text-[#f1c83d]"
+              : "border-gray-200 text-gray-400"
+          }`}
+        >
+          <ArrowUpRight className="w-4 h-4" />
+        </motion.div>
+      </div>
+
+      {/* 3. MAIN CONTENT (Changes position based on state) */}
+      <div className="relative z-20 flex-grow flex flex-col justify-end p-6 lg:p-10">
+        {/* Giant Chemical Formula Watermark */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none">
+          <motion.span
+            animate={{
+              opacity: isActive ? 0.1 : 0.05,
+              scale: isActive ? 1.5 : 1,
+              y: isActive ? -50 : 0,
+            }}
+            transition={{ duration: 0.8 }}
+            className={`text-8xl lg:text-9xl font-black tracking-tighter ${isActive ? "text-white" : "text-[#6a6931]"}`}
+          >
+            {data.chemical}
+          </motion.span>
+        </div>
+
+        {/* Text Content */}
+        <div className="relative z-10">
+          <motion.h2
+            layout="position"
+            className={`text-4xl lg:text-6xl font-serif mb-4 transition-colors duration-300 ${
+              isActive ? "text-white" : "text-[#1a1a1a]"
+            }`}
+          >
+            {data.name}
+          </motion.h2>
+
+          <AnimatePresence>
+            {isActive && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.5, ease: "circOut" }}
+                className="overflow-hidden"
+              >
+                <div className="pt-4 border-t border-white/20">
+                  <p className="text-gray-300 text-lg mb-8 max-w-lg font-light leading-relaxed">
+                    {data.desc}
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-8 mb-8">
+                    {data.stats.map((stat: any, i: number) => (
+                      <div key={i}>
+                        <p className="text-xs text-[#f1c83d] uppercase tracking-widest font-bold mb-1">
+                          {stat.label}
+                        </p>
+                        <p className="text-3xl font-mono text-white">
+                          {stat.value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {data.tags.map((tag: string, i: number) => (
+                      <span
+                        key={i}
+                        className="px-3 py-1 rounded-full border border-white/20 text-xs text-white uppercase tracking-wider hover:bg-white hover:text-black transition-colors cursor-default"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Idle State "Click to Explore" hint */}
+          {!isActive && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mt-4 flex items-center gap-2 text-[#6a6931] font-medium text-sm lg:opacity-0 lg:group-hover:opacity-100 transition-opacity"
+            >
+              <Target className="w-4 h-4" />
+              <span>Explore Specs</span>
+            </motion.div>
+          )}
+        </div>
+      </div>
+
+      {/* Decorative Active Bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 h-2 w-full bg-[#f1c83d]"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: isActive ? 1 : 0 }}
+        transition={{ duration: 0.5 }}
+        style={{ originX: 0 }}
+      />
+    </motion.div>
+  );
+};
+
+// --- UTILS ---
+const Crosshair = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1"
+  >
+    <line x1="12" y1="0" x2="12" y2="24" />
+    <line x1="0" y1="12" x2="24" y2="12" />
+    <circle cx="12" cy="12" r="8" strokeDasharray="2 2" />
+  </svg>
+);
+
+export default IndustrialPhenomenon;

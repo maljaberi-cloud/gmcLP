@@ -3,19 +3,16 @@ import CompanyProfile from "@/components/CompanyProfile";
 import ProductCollection from "@/components/MerchantSection";
 import ManufacturingProcess from "@/components/ManufacturingProcess";
 import InsightSection from "@/components/InsightSection";
-import NewsGrid from "@/components/NewsGrid";
+import NewsGrid from "@/components/NewsGrids";
 import Footer from "@/components/Footer";
 import MarbleStackExperience from "@/components/MarbleStackExperience";
-import UbarStoneLegacy from "@/components/UbarStoneLegacy";
+import AboutSectionLight from "@/components/UbarStoneLegacy";
 import UbarMarbleCollection from "@/components/UbarMarbleCollection";
-import UbarIndustrialSolutions from "@/components/UbarIndustrialSolutions";
-import UbarHeroLuxury from "@/components/UbarHeroOmnipotent";
-
-
+import IndustrialSection from "@/components/UbarIndustrialSolutions";
+import ProjectPortfolio from "@/components/ProjectPortfolio";
 
 // 1. Import the Navbar
 import UbarNavbar from "@/components/Navbar";
-
 
 export default function Home() {
   return (
@@ -24,10 +21,10 @@ export default function Home() {
       <UbarNavbar />
 
       <HeroSection />
-      <UbarStoneLegacy />
+      <AboutSectionLight />
       <UbarMarbleCollection />
-      <UbarIndustrialSolutions />
-
+      <IndustrialSection />
+      <ProjectPortfolio />
       <NewsGrid />
       <InsightSection />
 
