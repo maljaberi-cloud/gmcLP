@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { Menu, X, ArrowRight, Download } from 'lucide-react';
+import { Menu, X, ArrowRight, Download, Globe } from 'lucide-react';
 
 const UbarNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { scrollY } = useScroll();
 
-  // --- INTELLIGENT SCROLL DETECTION ---
+  // --- INTELLIGENT SCROLL PHYSICS ---
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 50) {
       setIsScrolled(true);
@@ -18,7 +18,7 @@ const UbarNavbar = () => {
     }
   });
 
-  // Toggle Body Scroll when menu is open
+  // Toggle Body Scroll Lock when menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -27,7 +27,7 @@ const UbarNavbar = () => {
     }
   }, [isMenuOpen]);
 
-  // --- NAVIGATION LINKS ---
+  // --- DATA ---
   const NAV_LINKS = [
     { name: "Brand Narrative", href: "#narrative" },
     { name: "The Collection", href: "#collection" },
@@ -36,180 +36,184 @@ const UbarNavbar = () => {
 
   return (
     <>
-      {/* --- MAIN NAVIGATION BAR --- */}
+      {/* --- MAIN HUD NAVIGATION BAR --- */}
       <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out px-6 md:px-12 lg:px-24
-          ${isScrolled 
-            ? 'bg-white/90 backdrop-blur-md border-b border-slate-100/50 shadow-sm py-3' 
-            : 'bg-transparent py-6 md:py-8'
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-[0.22,1,0.36,1] px-6 md:px-12 lg:px-24
+          ${isScrolled
+            ? 'bg-white/90 backdrop-blur-xl border-b border-[#6a6931]/10 py-4 shadow-sm'
+            : 'bg-transparent py-8 md:py-10'
           }
         `}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          
-          {/* 1. LOGO IMAGE (The Anchor) */}
-          <a href="#" className="relative z-50 block">
-            {/* The logo scales slightly on scroll to be more compact. 
-               We add a filter brightness transition if the menu opens (optional depending on your logo color).
-            */}
-            <img 
-              src="/logo.png" 
-              alt="Ubar Stone" 
-              className={`object-contain transition-all duration-500
-                ${isScrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}
-                ${isMenuOpen ? 'brightness-0 invert' : ''} 
-              `}
-              // Note: 'brightness-0 invert' turns a black logo white for the dark menu background. 
-              // Remove that class if your logo is Gold/White already.
-            />
-          </a>
+        <div className="max-w-[1440px] mx-auto flex items-center justify-between">
 
-          {/* 2. DESKTOP LINKS (The Centerpiece) */}
-          <div className="hidden md:flex items-center gap-8 lg:gap-12 absolute left-1/2 transform -translate-x-1/2">
+          {/* 1. THE ANCHOR (Logo) */}
+          <div className="relative z-50">
+            <a href="#" className="block group">
+              <img
+                src="/logo.png"
+                alt="Ubar Stone"
+                className={`object-contain transition-all duration-700 ease-out
+                  ${isScrolled ? 'h-10' : 'h-12'}
+                  ${isMenuOpen ? 'invert brightness-0 contrast-200' : ''} 
+                `}
+              />
+            </a>
+          </div>
+
+          {/* 2. THE CONTROL CLUSTER (Desktop Links) */}
+          <div className={`hidden lg:flex items-center gap-12 absolute left-1/2 transform -translate-x-1/2 transition-opacity duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}>
             {NAV_LINKS.map((link) => (
-              <a 
+              <a
                 key={link.name}
                 href={link.href}
-                className="relative text-sm font-medium text-slate-600 hover:text-[#1a1a1a] transition-colors group tracking-wide"
+                className="relative text-xs uppercase tracking-[0.15em] font-bold text-[#6a6931] hover:text-[#1a1a1a] transition-colors group py-2"
               >
                 {link.name}
-                {/* Magnetic Dot Effect */}
-                <span className="absolute -bottom-2 left-1/2 w-1 h-1 bg-[#f1c83d] rounded-full transform -translate-x-1/2 scale-0 group-hover:scale-100 transition-transform duration-300" />
+                <span className="absolute -bottom-1 left-1/2 w-1.5 h-1.5 bg-[#f1c83d] rounded-full transform -translate-x-1/2 scale-0 group-hover:scale-100 transition-transform duration-300 ease-back-out" />
               </a>
             ))}
           </div>
 
-          {/* 3. ACTIONS (The CTA) */}
-          <div className="flex items-center gap-4 z-50">
-            
-            {/* Download Brochure Button (Desktop) */}
-            <motion.button 
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className={`hidden md:flex items-center gap-3 px-6 py-3 rounded-sm text-xs uppercase tracking-widest font-bold transition-all duration-300 border
-                ${isScrolled 
-                  ? 'bg-[#1a1a1a] border-[#1a1a1a] text-white hover:bg-[#f1c83d] hover:border-[#f1c83d] hover:text-[#1a1a1a]' 
-                  : 'bg-white border-white text-[#1a1a1a] shadow-xl hover:shadow-2xl'
+          {/* 3. THE ACTION STACK (Right Side) */}
+          <div className="flex items-center gap-2 md:gap-6 z-50">
+
+            {/* Download Button (with the NEW MEGA SHADOW) */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              // UPDATED SHADOW HERE vvv
+              className={`hidden md:flex items-center gap-3 px-5 py-2.5 rounded-sm transition-all duration-500 border group
+                ${isScrolled
+                  ? 'bg-[#1a1a1a] border-[#1a1a1a] text-white shadow-none'
+                  // The new, deeper, blurrier, more spread shadow:
+                  : 'bg-white border-white text-[#1a1a1a] shadow-[0_40px_90px_-10px_rgba(0,0,0,0.25)]'
                 }
+                ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}
               `}
             >
-              <span>Download Brochure</span>
-              <Download size={16} className={`${isScrolled ? 'text-[#f1c83d] group-hover:text-[#1a1a1a]' : 'text-[#f1c83d]'}`} />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Catalog</span>
+              <div className={`w-px h-3 ${isScrolled ? 'bg-white/20' : 'bg-black/10'}`}></div>
+              <Download size={14} className={`${isScrolled ? 'text-[#f1c83d]' : 'text-[#6a6931]'}`} />
             </motion.button>
 
-            {/* Hamburger Menu (Mobile/Tablet) */}
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`p-2 rounded-full transition-colors duration-300 ${isMenuOpen ? 'text-white bg-white/10' : 'text-[#1a1a1a] hover:bg-slate-100'}`}
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {/* The Trigger (Hamburger) */}
+            <div className="flex items-center gap-4">
+              <span className={`hidden md:block text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${isMenuOpen ? 'text-white/50' : 'text-[#6a6931]'}`}>
+                {isMenuOpen ? 'Close' : 'Menu'}
+              </span>
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className={`relative w-12 h-12 flex items-center justify-center rounded-full border transition-all duration-500 overflow-hidden group
+                    ${isMenuOpen
+                    ? 'border-white/20 bg-white/10 text-white rotate-90'
+                    : isScrolled
+                      ? 'border-[#6a6931]/20 hover:border-[#f1c83d] text-[#1a1a1a]'
+                      // Added a softer shadow here too for consistency
+                      : 'bg-white text-[#1a1a1a] border-transparent shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)]'
+                  }
+                `}
+              >
+                <div className="relative z-10">
+                  {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                </div>
+                <div className={`absolute inset-0 bg-[#f1c83d] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out ${isMenuOpen ? 'hidden' : 'block'}`} />
+              </button>
+            </div>
           </div>
         </div>
       </motion.nav>
 
 
-      {/* --- FULL SCREEN CINEMATIC MENU (The Reveal) --- */}
+      {/* --- CINEMATIC FULLSCREEN MENU (Unchanged) --- */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { delay: 0.4 } }}
-            transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-40 bg-[#1a1a1a] flex flex-col justify-center px-6 md:px-12 lg:px-24"
+            exit={{ opacity: 0, transition: { delay: 0.4, duration: 0.5 } }}
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 z-40 bg-[#0f0f0f] flex flex-col justify-center overflow-hidden"
           >
-            {/* Background Texture */}
-             <div className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay" 
-                  style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/stardust.png")` }}></div>
-             
-             {/* Large Floating Orb */}
-             <motion.div 
-               initial={{ opacity: 0, scale: 0.8 }}
-               animate={{ opacity: 0.2, scale: 1 }}
-               className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#f1c83d] rounded-full blur-[150px]"
-             />
+            {/* ... (The rest of the menu code is the same as before) ... */}
+            <div className="absolute inset-0 opacity-[0.07]"
+              style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/stardust.png")` }}></div>
 
-            <div className="relative max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12">
-              
-              {/* Menu Links */}
-              <div className="flex flex-col space-y-6">
-                 {/* Navigation Label */}
-                 <motion.div
-                   initial={{ opacity: 0, x: -20 }}
-                   animate={{ opacity: 1, x: 0 }}
-                   transition={{ delay: 0.2 }}
-                   className="flex items-center gap-3 mb-4"
-                 >
-                   <span className="w-8 h-[1px] bg-[#6a6931]"></span>
-                   <span className="text-[#6a6931] uppercase tracking-[0.2em] text-xs font-bold">Menu</span>
-                 </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5, x: 100 }}
+              animate={{ opacity: 0.15, scale: 1, x: 0 }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="absolute top-[-20%] right-[-10%] w-[80vw] h-[80vw] bg-[#f1c83d] rounded-full blur-[150px] pointer-events-none"
+            />
 
-                 {/* The Links */}
-                 {[
-                   { title: "Home", sub: "Back to beginning" },
-                   { title: "Brand Narrative", sub: "Our history & ethos" },
-                   { title: "Marble Collection", sub: "Fanar, Morooj, Reedan" },
-                   { title: "Industrial Core", sub: "Quicklime & Limestone" },
-                   { title: "Download Brochure", sub: "Get the full catalog", isAction: true }
-                 ].map((item, i) => (
-                   <motion.a
-                     key={i}
-                     href="#"
-                     onClick={() => setIsMenuOpen(false)}
-                     initial={{ opacity: 0, y: 40 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     exit={{ opacity: 0, y: 20 }}
-                     transition={{ delay: 0.1 + (i * 0.1), duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                     className={`group flex items-center justify-between border-b border-white/10 pb-6 hover:border-[#f1c83d] transition-colors duration-500 cursor-pointer
-                        ${item.isAction ? 'text-[#f1c83d]' : 'text-white'}
-                     `}
-                   >
-                     <div>
-                       <span className={`block text-3xl md:text-5xl font-serif group-hover:text-[#f1c83d] transition-colors duration-300 ${item.isAction ? 'text-[#f1c83d]' : ''}`}>
-                         {item.title}
-                       </span>
-                       <span className="block text-sm text-gray-500 mt-2 group-hover:text-white/60 transition-colors">
-                         {item.sub}
-                       </span>
-                     </div>
-                     {item.isAction ? (
-                         <Download className="text-[#f1c83d] -translate-x-4 group-hover:translate-x-0 transition-transform duration-300" />
-                     ) : (
-                         <ArrowRight className="text-white opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300" />
-                     )}
-                   </motion.a>
-                 ))}
-              </div>
-
-              {/* Menu Sidebar / Contact Info (Hidden on mobile for space) */}
-              <div className="hidden md:flex flex-col justify-end pb-6 border-l border-white/10 pl-12">
-                 <motion.div
-                   initial={{ opacity: 0 }}
-                   animate={{ opacity: 1 }}
-                   transition={{ delay: 0.6 }}
-                   className="space-y-8"
-                 >
+            <div className="relative max-w-[1440px] mx-auto w-full px-6 md:px-12 lg:px-24 h-full flex flex-col justify-center">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 h-auto items-center">
+                <div className="lg:col-span-7 flex flex-col space-y-2">
+                  <div className="mb-8 pl-1">
+                    <span className="text-[#f1c83d] font-mono text-xs uppercase tracking-widest">Navigation /// 01</span>
+                  </div>
+                  {[
+                    { title: "Home", sub: "Back to surface" },
+                    { title: "Brand Narrative", sub: "Our history & ethos" },
+                    { title: "The Collection", sub: "Fanar, Morooj, Reedan" },
+                    { title: "Industrial Core", sub: "Quicklime & Limestone" },
+                  ].map((item, i) => (
+                    <motion.a
+                      key={i}
+                      href="#"
+                      onClick={() => setIsMenuOpen(false)}
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -30 }}
+                      transition={{ delay: 0.1 + (i * 0.1), duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                      className="group relative flex items-center justify-between py-6 border-b border-white/10 hover:border-[#f1c83d]/50 transition-colors duration-500 cursor-pointer"
+                    >
+                      <div className="flex items-baseline gap-6">
+                        <span className="font-mono text-xs text-white/30 group-hover:text-[#f1c83d] transition-colors">0{i + 1}</span>
+                        <span className="block text-4xl md:text-6xl font-serif text-white group-hover:text-[#f1c83d] transition-colors duration-300">
+                          {item.title}
+                        </span>
+                      </div>
+                      <div className="hidden md:flex items-center gap-4 overflow-hidden">
+                        <span className="text-sm text-gray-500 font-light translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
+                          {item.sub}
+                        </span>
+                        <ArrowRight className="text-[#f1c83d] -translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300" />
+                      </div>
+                    </motion.a>
+                  ))}
+                </div>
+                <div className="lg:col-span-5 hidden lg:flex flex-col justify-between h-full pl-20 border-l border-white/5 py-10">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                    className="space-y-12"
+                  >
                     <div>
-                      <h4 className="text-[#f1c83d] text-sm uppercase tracking-widest mb-4">Headquarters</h4>
-                      <p className="text-gray-400 leading-relaxed font-light">
-                        Rusayl Industrial Estate<br />
-                        Muscat, Sultanate of Oman
+                      <h4 className="flex items-center gap-2 text-[#6a6931] text-xs uppercase tracking-widest mb-6 font-bold">
+                        <Globe size={14} /> Global HQ
+                      </h4>
+                      <p className="text-2xl text-white font-serif leading-snug mb-2">
+                        Rusayl Industrial Estate<br />Muscat, Oman
                       </p>
-                    </div>
-                    <div>
-                      <h4 className="text-[#f1c83d] text-sm uppercase tracking-widest mb-4">Connect</h4>
-                      <a href="mailto:info@ubarstone.com" className="block text-2xl text-white hover:text-[#f1c83d] transition-colors font-serif">
-                        info@ubarstone.com
+                      <a href="mailto:info@ubarstone.com" className="text-gray-400 hover:text-[#f1c83d] transition-colors border-b border-gray-700 hover:border-[#f1c83d] pb-1">
+                        hello@ubarstone.com
                       </a>
-                      <p className="text-gray-400 mt-2 font-mono text-sm">+968 2444 1234</p>
                     </div>
-                 </motion.div>
+                    <div className="bg-white/5 p-8 rounded border border-white/10 backdrop-blur-sm">
+                      <h5 className="text-white font-bold mb-2">Industrial Catalog 2026</h5>
+                      <p className="text-gray-400 text-sm mb-6">Technical specifications for Quicklime and Limestone variations.</p>
+                      <button className="w-full bg-[#f1c83d] text-black h-12 font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors">
+                        Download PDF (14MB)
+                      </button>
+                    </div>
+                  </motion.div>
+                </div>
               </div>
-
             </div>
           </motion.div>
         )}

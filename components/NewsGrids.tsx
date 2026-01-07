@@ -2,8 +2,15 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Calendar, Megaphone } from "lucide-react";
+import { ArrowUpRight, Calendar, Crosshair, Megaphone } from "lucide-react";
 
+const COLORS = {
+  primary: "#f1c83d",
+  secondary: "#6a6931",
+  dark: "#1a1a1a",
+  light: "#ffffff",
+  grid: "#e5e5e5",
+};
 // --- DATA SOURCE: MIX OF NEWS & ADS ---
 const NEWS_ITEMS = [
   {
@@ -63,9 +70,28 @@ const NEWS_ITEMS = [
 
 const NewsGrid = () => {
   return (
-    <section className="w-full bg-white py-24 lg:py-32 font-sans border-t border-gray-100">
-      <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
-        {/* --- HEADER --- */}
+    <section className="relative w-full bg-white py-24 lg:py-32 font-sans border-t border-gray-100 overflow-hidden">
+      {/* --- TECHNICAL BACKGROUND GRID --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div
+          className="w-full h-full opacity-40"
+          style={{
+            backgroundImage: `linear-gradient(${COLORS.grid} 1px, transparent 1px), linear-gradient(90deg, ${COLORS.grid} 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
+          }}
+        />
+        {/* Decorative Crosshairs */}
+        <div className="absolute top-10 left-10 text-[#6a6931]/30">
+          <Crosshair />
+        </div>
+        <div className="absolute bottom-10 right-10 text-[#6a6931]/30">
+          <Crosshair />
+        </div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-6 lg:px-12 max-w-7xl">
+
+
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div>
             <motion.div
@@ -190,11 +216,10 @@ const GridItem = ({ item, index }) => {
 
           <div className="relative z-10">
             <div
-              className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border mb-4 ${
-                item.textColor === "text-white"
-                  ? "border-white/30 text-white"
-                  : "border-gray-900/20 text-gray-900"
-              }`}
+              className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border mb-4 ${item.textColor === "text-white"
+                ? "border-white/30 text-white"
+                : "border-gray-900/20 text-gray-900"
+                }`}
             >
               <Megaphone className="w-3 h-3" />
               Advert

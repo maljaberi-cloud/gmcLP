@@ -2,12 +2,20 @@
 
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Quote, ArrowRight } from "lucide-react";
+import { Quote, ArrowRight, Crosshair } from "lucide-react";
 
 // --- VISUAL ASSETS (Placeholders - Replace with actual high-res stone textures) ---
 const STONE_IMG_1 = "/ain.png"; // Textured Stone Surface
 const STONE_IMG_2 =
   "https://images.unsplash.com/photo-1615873968403-89e068629265?q=80&w=2832&auto=format&fit=crop"; // Marble/Architecture
+
+const COLORS = {
+  primary: "#f1c83d",
+  secondary: "#6a6931",
+  dark: "#1a1a1a",
+  light: "#ffffff",
+  grid: "#e5e5e5",
+};
 
 const AboutSectionLight = () => {
   // Animation Variants for that "Cinematic" feel
@@ -40,10 +48,27 @@ const AboutSectionLight = () => {
   return (
     <section className="relative w-full bg-white overflow-hidden py-24 lg:py-32 font-sans">
       {/* --- Decorative Background Elements (Subtle elegance) --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div
+          className="w-full h-full opacity-40"
+          style={{
+            backgroundImage: `linear-gradient(${COLORS.grid} 1px, transparent 1px), linear-gradient(90deg, ${COLORS.grid} 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
+          }}
+        />
+        {/* Decorative Crosshairs */}
+        <div className="absolute top-10 left-10 text-[#6a6931]/30">
+          <Crosshair />
+        </div>
+        <div className="absolute bottom-10 right-10 text-[#6a6931]/30">
+          <Crosshair />
+        </div>
+      </div>
+
       <div className="absolute top-0 right-0 w-1/3 h-full bg-[#f9f9f9] -z-10 hidden lg:block" />
       <div className="absolute bottom-20 left-10 w-64 h-64 bg-[#f1c83d] opacity-5 blur-[120px] rounded-full pointer-events-none" />
 
-      <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
+      <div className="container mx-auto px-6 lg:px-12 max-w-7xl relative z-10">
         <motion.div
           className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center"
           variants={containerVariants}
@@ -104,10 +129,10 @@ const AboutSectionLight = () => {
             {/* Headline */}
             <motion.h2
               variants={itemVariants}
-              className="text-4xl lg:text-6xl font-serif text-gray-900 leading-[1.1] mb-8"
+              className="text-4xl lg:text-6xl font-serif font-light text-gray-900 leading-[1.1] mb-8"
             >
               We Don't Just <br />
-              <span className="italic text-[#6a6931]">Offer Stone.</span>
+              <span className="font-serif italic text-[#6a6931]">Offer Stone.</span>
             </motion.h2>
 
             {/* Body Copy - Using 2 columns for architectural readability on large screens */}

@@ -1,216 +1,253 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
+  ArrowUpRight,
+  Send,
   MapPin,
-  Phone,
   Mail,
+  Phone,
   Instagram,
   Linkedin,
   Facebook,
   Twitter,
-  ExternalLink,
+  CheckCircle2,
 } from "lucide-react";
 
-export default function Footer() {
+// --- COLORS ---
+const COLORS = {
+  primary: "#f1c83d",
+  secondary: "#6a6931",
+  grid: "#e5e5e5",
+  textMain: "#1a1a1a",
+  textSub: "#6a6931",
+};
+
+export default function HighEndFooter() {
   return (
-    <footer className="relative bg-white border-t border-stone-100 overflow-hidden pt-20 pb-10">
-      {/* --- DECORATIVE BACKGROUND ELEMENTS --- */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-[0.03]">
-        <span className="absolute -top-20 -left-20 text-[20vw] font-serif font-bold text-stone-900 leading-none whitespace-nowrap select-none">
-          GLOBAL MARBLE
+    <footer className="relative bg-white pt-0 pb-0 overflow-hidden font-sans border-t border-[#6a6931]/20">
+      {/* --- BACKGROUND DECORATION --- */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
+        {/* Massive Watermark */}
+        <span className="absolute -bottom-[5vw] left-0 text-[22vw] font-serif font-bold text-[#f8f8f6] leading-none whitespace-nowrap select-none opacity-80">
+          GLOBAL
         </span>
+        {/* Grid Lines */}
+        <div
+          className="absolute inset-0 opacity-[0.3]"
+          style={{
+            backgroundImage: `linear-gradient(${COLORS.grid} 1px, transparent 1px), linear-gradient(90deg, ${COLORS.grid} 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        {/* --- TOP SECTION: BRAND & MAP --- */}
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-20">
-          {/* 1. Brand & Mission */}
-          <div className="lg:w-1/3 space-y-6 pt-4">
-            <a href="/" className="inline-block">
-              <img
-                src="/logo.png"
-                alt="Global Marble Logo"
-                className="h-12 w-auto object-contain"
-              />
-            </a>
-            <p className="text-stone-500 text-lg leading-relaxed font-light max-w-md">
-              Pioneering the Stone Industry in the Sultanate. We engineer
-              nature's finest materials into timeless architectural
-              masterpieces.
-            </p>
+      <div className="relative z-10 container mx-auto px-4 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[600px] border-l border-r border-[#6a6931]/10 bg-white/80 backdrop-blur-sm">
 
-            {/* Direct Contact Button */}
-            <motion.a
-              href="#contact"
-              whileHover={{ x: 5 }}
-              className="inline-flex items-center gap-2 text-[#f1c83d] font-bold tracking-wide uppercase text-sm"
-            >
-              Get in touch <span className="text-xl">→</span>
-            </motion.a>
-          </div>
-
-          {/* 2. THE CINEMATIC MAP PORTAL (Replaces Newsletter) */}
-          <div className="lg:w-1/2 w-full h-[250px] relative group rounded-2xl overflow-hidden shadow-lg border border-stone-100">
-            {/* The Map Iframe */}
-            <iframe
-              width="100%"
-              height="100%"
-              id="gmap_canvas"
-              src="https://maps.google.com/maps?q=Raysut+Industrial+Estate,+Salalah,+Oman&t=&z=13&ie=UTF8&iwloc=&output=embed"
-              frameBorder="0"
-              scrolling="no"
-              title="Global Marble Location"
-              className="w-full h-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
-            ></iframe>
-
-            {/* Overlay Gradient (Fades out on hover) */}
-            <div className="absolute inset-0 bg-stone-900/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
-
-            {/* 'Locate Us' Badge - Floats on top */}
-            <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md py-2 px-4 rounded-lg shadow-sm flex items-center gap-3">
-              <div className="bg-[#f1c83d] p-1.5 rounded-full animate-pulse">
-                <MapPin size={14} className="text-stone-900" />
+          {/* === COLUMN 1: THE BRAND & INFO (4 Cols) === */}
+          <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-[#6a6931]/10 p-10 flex flex-col justify-between">
+            <div>
+              {/* Logo / Brand */}
+              <div className="flex items-center gap-2 mb-8">
+                <div className="w-8 h-8 bg-[#f1c83d] rounded-sm flex items-center justify-center">
+                  <span className="font-serif font-bold text-black text-xl">G</span>
+                </div>
+                <span className="text-xl font-bold tracking-tight text-black">
+                  GLOBAL MARBLE
+                </span>
               </div>
-              <div>
-                <p className="text-xs font-bold text-stone-900 uppercase tracking-wider">
-                  Our Factory
-                </p>
-                <p className="text-[10px] text-stone-500">
-                  Raysut Industrial Estate, Dhofar
-                </p>
-              </div>
+
+              <p className="text-[#6a6931] leading-relaxed mb-12 max-w-sm">
+                Engineering nature’s finest materials into timeless architectural
+                masterpieces. Based in the Sultanate, serving the world.
+              </p>
+
+              {/* Contact Details List */}
+              <ul className="space-y-6">
+                <ContactItem
+                  icon={<MapPin className="w-4 h-4" />}
+                  label="Factory HQ"
+                  value="Raysut Industrial Estate, Dhofar, Oman"
+                />
+                <ContactItem
+                  icon={<Mail className="w-4 h-4" />}
+                  label="Inquiries"
+                  value="projects@globalmarble.om"
+                  isLink
+                />
+                <ContactItem
+                  icon={<Phone className="w-4 h-4" />}
+                  label="Office"
+                  value="+968 2321 9999"
+                />
+              </ul>
             </div>
 
-            {/* "Open Map" Button (Appears on Hover) */}
-            <motion.a
-              href="https://maps.google.com/maps?q=Raysut+Industrial+Estate,+Salalah,+Oman"
-              target="_blank"
-              initial={{ opacity: 0, y: 10 }}
-              whileHover={{ scale: 1.05 }}
-              className="absolute top-4 right-4 bg-stone-900 text-white p-2 rounded-full shadow-xl opacity-0 group-hover:opacity-100 group-hover:y-0 transition-all duration-300"
-            >
-              <ExternalLink size={18} />
-            </motion.a>
-          </div>
-        </div>
-
-        {/* --- MIDDLE SECTION: LINKS --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 border-t border-stone-100 pt-16 mb-16">
-          {/* Column 1: Quick Links */}
-          <div>
-            <h4 className="text-stone-900 font-bold mb-6 text-sm tracking-wider uppercase">
-              Explore
-            </h4>
-            <ul className="space-y-4">
-              {["About Us", "Our Products", "Latest News", "Contact Us"].map(
-                (item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="group flex items-center text-stone-500 hover:text-[#f1c83d] transition-colors duration-300"
-                    >
-                      <span className="w-0 overflow-hidden group-hover:w-3 transition-all duration-300 opacity-0 group-hover:opacity-100 mr-0 group-hover:mr-2 text-[#f1c83d]">
-                        —
-                      </span>
-                      {item}
-                    </a>
-                  </li>
-                )
-              )}
-            </ul>
+            {/* Socials */}
+            <div className="flex gap-4 mt-12 pt-8 border-t border-[#6a6931]/10">
+              {[Instagram, Linkedin, Twitter, Facebook].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-[#f8f8f6] text-[#6a6931] hover:bg-[#f1c83d] hover:text-black transition-all duration-300"
+                >
+                  <Icon size={18} />
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Column 2: Products */}
-          <div>
-            <h4 className="text-stone-900 font-bold mb-6 text-sm tracking-wider uppercase">
-              Collections
-            </h4>
-            <ul className="space-y-4">
-              {["Premium Marble", "Onyx Series", "Travertine", "Limestone"].map(
-                (item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-stone-500 hover:text-stone-900 transition-colors duration-300"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                )
-              )}
-            </ul>
-          </div>
+          {/* === COLUMN 2: THE FORM TERMINAL (5 Cols) === */}
+          <div className="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-[#6a6931]/10 p-10 bg-[#fbfbfb]">
+            <div className="mb-8">
+              <span className="text-xs font-bold text-[#f1c83d] uppercase tracking-widest mb-2 block">
+                Initiate Project
+              </span>
+              <h3 className="text-3xl font-serif text-[#1a1a1a]">
+                Start the Conversation
+              </h3>
+            </div>
 
-          {/* Column 3: Contact Info */}
-          <div className="lg:col-span-2">
-            <h4 className="text-stone-900 font-bold mb-6 text-sm tracking-wider uppercase">
-              Global Headquarters
-            </h4>
-            <ul className="space-y-6">
-              <li className="flex items-start gap-4">
-                <div className="bg-stone-50 p-3 rounded-full text-[#f1c83d]">
-                  <MapPin size={20} />
-                </div>
-                <div>
-                  <p className="text-stone-900 font-medium">
-                    Raysut Industrial Estate
-                  </p>
-                  <p className="text-stone-500 text-sm">
-                    Salalah, Sultanate of Oman
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-4">
-                <div className="bg-stone-50 p-3 rounded-full text-[#f1c83d]">
-                  <Phone size={20} />
-                </div>
-                <div>
-                  <p className="text-stone-900 font-medium">+968 2321 9999</p>
-                  <p className="text-stone-500 text-sm">Mon - Fri, 8am - 6pm</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-4">
-                <div className="bg-stone-50 p-3 rounded-full text-[#f1c83d]">
-                  <Mail size={20} />
-                </div>
-                <div>
-                  <a
-                    href="mailto:info@globalmarble.om"
-                    className="text-stone-900 font-medium hover:text-[#f1c83d] transition-colors"
-                  >
-                    info@globalmarble.om
-                  </a>
-                  <p className="text-stone-500 text-sm">
-                    Drop us a line anytime
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
+            <form className="space-y-8">
+              <div className="grid grid-cols-2 gap-6">
+                <FormInput label="First Name" placeholder="John" />
+                <FormInput label="Last Name" placeholder="Doe" />
+              </div>
+              <FormInput label="Email Address" placeholder="john@company.com" type="email" />
 
-        {/* --- BOTTOM SECTION: COPYRIGHT & SOCIALS --- */}
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-stone-100">
-          <p className="text-stone-400 text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} Global Marble Manufacturing Co. All
-            rights reserved.
-          </p>
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase font-bold tracking-widest text-[#6a6931]">
+                  Project Type
+                </label>
+                <select className="w-full bg-transparent border-b border-[#6a6931]/20 pb-3 text-[#1a1a1a] focus:outline-none focus:border-[#f1c83d] transition-colors">
+                  <option>Commercial Construction</option>
+                  <option>Residential Design</option>
+                  <option>Industrial Material Supply</option>
+                  <option>Other</option>
+                </select>
+              </div>
 
-          <div className="flex items-center gap-4">
-            {[Facebook, Instagram, Linkedin, Twitter].map((Icon, i) => (
-              <a
-                key={i}
-                href="#"
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-stone-50 text-stone-500 hover:bg-[#f1c83d] hover:text-stone-900 hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-md"
+              <FormInput label="Message" placeholder="Tell us about your requirements..." isTextArea />
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-[#1a1a1a] text-white h-14 rounded-none flex items-center justify-between px-6 hover:bg-[#f1c83d] hover:text-black transition-colors duration-300 group"
               >
-                <Icon size={18} />
+                <span className="font-bold tracking-widest uppercase text-sm">
+                  Send Inquiry
+                </span>
+                <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </motion.button>
+            </form>
+          </div>
+
+          {/* === COLUMN 3: NAVIGATION & LINKS (3 Cols) === */}
+          <div className="lg:col-span-3 p-10 bg-white flex flex-col">
+            <div className="mb-12">
+              <h4 className="text-xs font-bold text-[#6a6931] uppercase tracking-widest mb-6 border-b border-[#6a6931]/20 pb-2">
+                Sitemap
+              </h4>
+              <ul className="space-y-3">
+                {["Our Company", "Products", "Projects", "Sustainability", "Careers", "News"].map((item) => (
+                  <li key={item}>
+                    <a href="#" className="group flex items-center justify-between text-[#1a1a1a] hover:text-[#f1c83d] transition-colors">
+                      <span className="font-medium">{item}</span>
+                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-auto">
+              <h4 className="text-xs font-bold text-[#6a6931] uppercase tracking-widest mb-4">
+                Downloads
+              </h4>
+              <a href="#" className="block p-4 border border-[#6a6931]/20 hover:border-[#f1c83d] hover:bg-[#f1c83d]/5 transition-all group">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-bold text-[#1a1a1a]">Product Catalog</span>
+                  <ArrowUpRight className="w-4 h-4 text-[#6a6931] group-hover:text-[#f1c83d]" />
+                </div>
+                <p className="text-xs text-[#6a6931]">PDF • 12.5 MB</p>
               </a>
-            ))}
+            </div>
+          </div>
+
+        </div>
+
+        {/* --- BOTTOM BAR --- */}
+        <div className="flex flex-col md:flex-row justify-between items-center py-6 border-t border-[#6a6931]/10 text-xs text-[#6a6931] uppercase tracking-wider">
+          <p>© {new Date().getFullYear()} Global Marble Co.</p>
+          <div className="flex gap-6 mt-2 md:mt-0">
+            <a href="#" className="hover:text-[#f1c83d]">Privacy</a>
+            <a href="#" className="hover:text-[#f1c83d]">Terms</a>
+            <a href="#" className="hover:text-[#f1c83d]">Sitemap</a>
           </div>
         </div>
       </div>
     </footer>
   );
 }
+
+// --- SUB-COMPONENTS FOR CLEANLINESS ---
+
+const ContactItem = ({ icon, label, value, isLink }: any) => (
+  <li className="flex items-start gap-4 group">
+    <div className="mt-1 text-[#f1c83d] group-hover:text-[#6a6931] transition-colors">
+      {icon}
+    </div>
+    <div>
+      <p className="text-[10px] font-bold text-[#6a6931] uppercase tracking-widest mb-0.5">
+        {label}
+      </p>
+      {isLink ? (
+        <a href={`mailto:${value}`} className="text-[#1a1a1a] font-medium hover:text-[#f1c83d] transition-colors decoration-1 underline-offset-4 hover:underline">
+          {value}
+        </a>
+      ) : (
+        <p className="text-[#1a1a1a] font-medium">{value}</p>
+      )}
+    </div>
+  </li>
+);
+
+const FormInput = ({ label, placeholder, type = "text", isTextArea = false }: any) => {
+  const [focused, setFocused] = useState(false);
+
+  return (
+    <div className="relative group">
+      <label
+        className={`absolute left-0 transition-all duration-300 ${focused ? "-top-5 text-[10px] text-[#f1c83d]" : "-top-5 text-[10px] text-[#6a6931]"
+          } font-bold uppercase tracking-widest`}
+      >
+        {label}
+      </label>
+
+      {isTextArea ? (
+        <textarea
+          rows={3}
+          placeholder={placeholder}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          className="w-full bg-transparent border-b border-[#6a6931]/20 py-2 text-[#1a1a1a] placeholder:text-[#6a6931]/30 focus:outline-none focus:border-[#f1c83d] transition-all resize-none"
+        />
+      ) : (
+        <input
+          type={type}
+          placeholder={placeholder}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          className="w-full bg-transparent border-b border-[#6a6931]/20 py-2 text-[#1a1a1a] placeholder:text-[#6a6931]/30 focus:outline-none focus:border-[#f1c83d] transition-all"
+        />
+      )}
+
+      {/* Animated Focus Line */}
+      <div
+        className={`absolute bottom-0 left-0 h-[1px] bg-[#f1c83d] transition-all duration-500 ${focused ? "w-full" : "w-0"}`}
+      />
+    </div>
+  );
+};

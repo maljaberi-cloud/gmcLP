@@ -49,7 +49,7 @@ const LogoMarquee = () => {
                 className="flex items-center gap-3 opacity-30 hover:opacity-100 transition-opacity duration-500 cursor-pointer group"
               >
                 <div className="h-2 w-2 bg-stone-600 rounded-full group-hover:bg-[#f1c83d] transition-colors" />
-                <span className="text-lg font-serif text-stone-300 group-hover:text-white tracking-wide">
+                <span className="text-lg font-old-serif text-stone-300 group-hover:text-white tracking-wide">
                   {client.name}
                 </span>
               </div>
@@ -202,7 +202,7 @@ export default function HeroSectionOptimized() {
               transition={{ duration: 1, delay: 0.2 }}
               className="flex flex-col items-center justify-center leading-none"
             >
-              <span className="font-serif italic text-4xl md:text-6xl text-stone-500 mb-2">
+              <span className="font-old-serif italic text-4xl md:text-6xl text-stone-500 mb-2">
                 Premium
               </span>
               <span className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-stone-200 to-stone-500 drop-shadow-2xl">

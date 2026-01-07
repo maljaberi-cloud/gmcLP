@@ -8,6 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ["var(--font-playfair)", "serif"], // New Luxury Serif Default
+        display: ["var(--font-cinzel)", "serif"], // New Luxury Display
+        "old-serif": ["ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"], // Preserved for Hero
+      },
       colors: {
         rich: {
           50: "#f2fcf5",

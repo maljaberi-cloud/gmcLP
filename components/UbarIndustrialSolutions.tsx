@@ -172,11 +172,10 @@ const MaterialCard = ({
       <div className="relative z-20 p-6 flex justify-between items-start border-b border-[#6a6931]/10 group-hover:border-white/20 transition-colors">
         <div className="flex items-center gap-3">
           <span
-            className={`font-mono text-sm font-bold px-2 py-1 rounded transition-colors ${
-              isActive
+            className={`font-mono text-sm font-bold px-2 py-1 rounded transition-colors ${isActive
                 ? "bg-[#f1c83d] text-black"
                 : "bg-[#6a6931]/10 text-[#6a6931]"
-            }`}
+              }`}
           >
             {data.id}
           </span>
@@ -188,11 +187,10 @@ const MaterialCard = ({
         </div>
         <motion.div
           animate={{ rotate: isActive ? 45 : 0 }}
-          className={`w-8 h-8 flex items-center justify-center rounded-full border transition-colors ${
-            isActive
+          className={`w-8 h-8 flex items-center justify-center rounded-full border transition-colors ${isActive
               ? "border-white/30 bg-white/10 text-[#f1c83d]"
               : "border-gray-200 text-gray-400"
-          }`}
+            }`}
         >
           <ArrowUpRight className="w-4 h-4" />
         </motion.div>
@@ -219,9 +217,8 @@ const MaterialCard = ({
         <div className="relative z-10">
           <motion.h2
             layout="position"
-            className={`text-4xl lg:text-6xl font-serif mb-4 transition-colors duration-300 ${
-              isActive ? "text-white" : "text-[#1a1a1a]"
-            }`}
+            className={`text-4xl lg:text-6xl font-serif mb-4 transition-colors duration-300 ${isActive ? "text-white" : "text-[#1a1a1a]"
+              }`}
           >
             {data.name}
           </motion.h2>
