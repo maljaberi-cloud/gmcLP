@@ -1,8 +1,13 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { Menu, X, ArrowRight, Download, Globe } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
+import { Menu, X, ArrowRight, Download, Globe } from "lucide-react";
 
 const UbarNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,17 +26,18 @@ const UbarNavbar = () => {
   // Toggle Body Scroll Lock when menu is open
   useEffect(() => {
     if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
   }, [isMenuOpen]);
 
-  // --- DATA ---
+  // --- DATA --- nothing that will ever show us in a core business or a building that might or might not be applicable by those whom enter the main plan that consist of us in various ways like us being silly with our time, not much time until we reliase that we are victims of the main Philosphy!! thats the issue that make us invisiblae
   const NAV_LINKS = [
-    { name: "Brand Narrative", href: "#narrative" },
-    { name: "The Collection", href: "#collection" },
+    { name: "About Us", href: "#aboutUs" },
+    { name: "Our Products", href: "#products" },
     { name: "Industrial Core", href: "#industrial" },
+    { name: "Contact Us", href: "#contact" },
   ];
 
   return (
@@ -42,14 +48,14 @@ const UbarNavbar = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-[0.22,1,0.36,1] px-6 md:px-12 lg:px-24
-          ${isScrolled
-            ? 'bg-white/90 backdrop-blur-xl border-b border-[#6a6931]/10 py-4 shadow-sm'
-            : 'bg-transparent py-8 md:py-10'
+          ${
+            isScrolled
+              ? "bg-white/90 backdrop-blur-xl border-b border-[#6a6931]/10 py-4 shadow-sm"
+              : "bg-transparent py-8 md:py-10"
           }
         `}
       >
         <div className="max-w-[1440px] mx-auto flex items-center justify-between">
-
           {/* 1. THE ANCHOR (Logo) */}
           <div className="relative z-50">
             <a href="#" className="block group">
@@ -57,15 +63,17 @@ const UbarNavbar = () => {
                 src="/logo.png"
                 alt="Ubar Stone"
                 className={`object-contain transition-all duration-700 ease-out
-                  ${isScrolled ? 'h-10' : 'h-12'}
-                  ${isMenuOpen ? 'invert brightness-0 contrast-200' : ''} 
+                  ${isScrolled ? "h-10" : "h-12"}
+                  ${isMenuOpen ? "invert brightness-0 contrast-200" : ""} 
                 `}
               />
             </a>
           </div>
 
           {/* 2. THE CONTROL CLUSTER (Desktop Links) */}
-          <div className={`hidden lg:flex items-center gap-12 absolute left-1/2 transform -translate-x-1/2 transition-opacity duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}>
+          <div
+            className={`hidden lg:flex items-center gap-12 absolute left-1/2 transform -translate-x-1/2 transition-opacity duration-300 ${isMenuOpen ? "opacity-0" : "opacity-100"}`}
+          >
             {NAV_LINKS.map((link) => (
               <a
                 key={link.name}
@@ -80,53 +88,68 @@ const UbarNavbar = () => {
 
           {/* 3. THE ACTION STACK (Right Side) */}
           <div className="flex items-center gap-2 md:gap-6 z-50">
-
             {/* Download Button (with the NEW MEGA SHADOW) */}
-            <motion.button
+            <motion.a
+              href="/UbarStone2025.pdf" // Path to public file
+              download="UbarStone_Catalogue_2025.pdf" // Professional rename
+              target="_blank" // Security best practice
+              rel="noopener noreferrer" // Security best practice
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               // UPDATED SHADOW HERE vvv
-              className={`hidden md:flex items-center gap-3 px-5 py-2.5 rounded-sm transition-all duration-500 border group
-                ${isScrolled
-                  ? 'bg-[#1a1a1a] border-[#1a1a1a] text-white shadow-none'
-                  // The new, deeper, blurrier, more spread shadow:
-                  : 'bg-white border-white text-[#1a1a1a] shadow-[0_40px_90px_-10px_rgba(0,0,0,0.25)]'
-                }
-                ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}
-              `}
+              className={`hidden md:flex items-center gap-3 px-5 py-2.5 rounded-sm transition-all duration-500 border group cursor-pointer
+    ${
+      isScrolled
+        ? "bg-[#1a1a1a] border-[#1a1a1a] text-white shadow-none"
+        : // The new, deeper, blurrier, more spread shadow:
+          "bg-white border-white text-[#1a1a1a] shadow-[0_40px_90px_-10px_rgba(0,0,0,0.25)]"
+    }
+    ${isMenuOpen ? "opacity-0 pointer-events-none" : "opacity-100"}
+  `}
             >
-              <span className="text-[10px] font-bold uppercase tracking-widest">Catalog</span>
-              <div className={`w-px h-3 ${isScrolled ? 'bg-white/20' : 'bg-black/10'}`}></div>
-              <Download size={14} className={`${isScrolled ? 'text-[#f1c83d]' : 'text-[#6a6931]'}`} />
-            </motion.button>
+              <span className="text-[10px] font-bold uppercase tracking-widest">
+                Catalog
+              </span>
+              <div
+                className={`w-px h-3 ${isScrolled ? "bg-white/20" : "bg-black/10"}`}
+              ></div>
+              <Download
+                size={14}
+                className={`${isScrolled ? "text-[#f1c83d]" : "text-[#6a6931]"}`}
+              />
+            </motion.a>
 
             {/* The Trigger (Hamburger) */}
             <div className="flex items-center gap-4">
-              <span className={`hidden md:block text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${isMenuOpen ? 'text-white/50' : 'text-[#6a6931]'}`}>
-                {isMenuOpen ? 'Close' : 'Menu'}
+              <span
+                className={`hidden md:block text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${isMenuOpen ? "text-white/50" : "text-[#6a6931]"}`}
+              >
+                {isMenuOpen ? "" : ""}
               </span>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className={`relative w-12 h-12 flex items-center justify-center rounded-full border transition-all duration-500 overflow-hidden group
-                    ${isMenuOpen
-                    ? 'border-white/20 bg-white/10 text-white rotate-90'
-                    : isScrolled
-                      ? 'border-[#6a6931]/20 hover:border-[#f1c83d] text-[#1a1a1a]'
-                      // Added a softer shadow here too for consistency
-                      : 'bg-white text-[#1a1a1a] border-transparent shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)]'
-                  }
+                    ${
+                      isMenuOpen
+                        ? "border-white/20 bg-white/10 text-white rotate-90"
+                        : isScrolled
+                          ? "border-[#6a6931]/20 hover:border-[#f1c83d] text-[#1a1a1a]"
+                          : // Added a softer shadow here too for consistency
+                            "bg-white text-[#1a1a1a] border-transparent shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)]"
+                    }
                 `}
               >
                 <div className="relative z-10">
                   {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
                 </div>
-                <div className={`absolute inset-0 bg-[#f1c83d] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out ${isMenuOpen ? 'hidden' : 'block'}`} />
+                <div
+                  className={`absolute inset-0 bg-[#f1c83d] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out ${isMenuOpen ? "hidden" : "block"}`}
+                />
               </button>
             </div>
           </div>
         </div>
       </motion.nav>
-
 
       {/* --- CINEMATIC FULLSCREEN MENU (Unchanged) --- */}
       <AnimatePresence>
@@ -139,8 +162,12 @@ const UbarNavbar = () => {
             className="fixed inset-0 z-40 bg-[#0f0f0f] flex flex-col justify-center overflow-hidden"
           >
             {/* ... (The rest of the menu code is the same as before) ... */}
-            <div className="absolute inset-0 opacity-[0.07]"
-              style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/stardust.png")` }}></div>
+            <div
+              className="absolute inset-0 opacity-[0.07]"
+              style={{
+                backgroundImage: `url("https://www.transparenttextures.com/patterns/stardust.png")`,
+              }}
+            ></div>
 
             <motion.div
               initial={{ opacity: 0, scale: 0.5, x: 100 }}
@@ -152,27 +179,52 @@ const UbarNavbar = () => {
             <div className="relative max-w-[1440px] mx-auto w-full px-6 md:px-12 lg:px-24 h-full flex flex-col justify-center">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 h-auto items-center">
                 <div className="lg:col-span-7 flex flex-col space-y-2">
-                  <div className="mb-8 pl-1">
-                    <span className="text-[#f1c83d] font-mono text-xs uppercase tracking-widest">Navigation /// 01</span>
-                  </div>
+                  <div className="mb-8 pl-1"></div>
                   {[
-                    { title: "Home", sub: "Back to surface" },
-                    { title: "Brand Narrative", sub: "Our history & ethos" },
-                    { title: "The Collection", sub: "Fanar, Morooj, Reedan" },
-                    { title: "Industrial Core", sub: "Quicklime & Limestone" },
+                    // 1. HOME: Usually the top of the page.
+                    // Ensure your Hero/Top section has id="home"
+                    {
+                      title: "Home",
+                      sub: "Back to surface",
+                      href: "#home",
+                    },
+                    // 2. BRAND NARRATIVE: Matches the section we worked on earlier
+                    {
+                      title: "Brand Narrative",
+                      sub: "Our history & ethos",
+                      href: "#aboutUs",
+                    },
+                    // 3. COLLECTION: You need a section with id="collection"
+                    {
+                      title: "The Collection",
+                      sub: "Fanar, Morooj, Reedan",
+                      href: "#products",
+                    },
+                    // 4. INDUSTRIAL: You need a section with id="industrial"
+                    {
+                      title: "Industrial Core",
+                      sub: "Quicklime & Limestone",
+                      href: "#industrial",
+                    },
                   ].map((item, i) => (
                     <motion.a
                       key={i}
-                      href="#"
-                      onClick={() => setIsMenuOpen(false)}
+                      href={item.href} // UPDATED: Now uses the specific ID
+                      onClick={() => setIsMenuOpen(false)} // Closes menu when clicked
                       initial={{ opacity: 0, x: -50 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -30 }}
-                      transition={{ delay: 0.1 + (i * 0.1), duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{
+                        delay: 0.1 + i * 0.1,
+                        duration: 0.8,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
                       className="group relative flex items-center justify-between py-6 border-b border-white/10 hover:border-[#f1c83d]/50 transition-colors duration-500 cursor-pointer"
                     >
                       <div className="flex items-baseline gap-6">
-                        <span className="font-mono text-xs text-white/30 group-hover:text-[#f1c83d] transition-colors">0{i + 1}</span>
+                        <span className="font-mono text-xs text-white/30 group-hover:text-[#f1c83d] transition-colors">
+                          0{i + 1}
+                        </span>
                         <span className="block text-4xl md:text-6xl font-serif text-white group-hover:text-[#f1c83d] transition-colors duration-300">
                           {item.title}
                         </span>
@@ -186,6 +238,8 @@ const UbarNavbar = () => {
                     </motion.a>
                   ))}
                 </div>
+
+                {/* Right Column (unchanged) */}
                 <div className="lg:col-span-5 hidden lg:flex flex-col justify-between h-full pl-20 border-l border-white/5 py-10">
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -198,18 +252,34 @@ const UbarNavbar = () => {
                         <Globe size={14} /> Global HQ
                       </h4>
                       <p className="text-2xl text-white font-serif leading-snug mb-2">
-                        Rusayl Industrial Estate<br />Muscat, Oman
+                        Rusayl Industrial Estate
+                        <br />
+                        Muscat, Oman
                       </p>
-                      <a href="mailto:info@ubarstone.com" className="text-gray-400 hover:text-[#f1c83d] transition-colors border-b border-gray-700 hover:border-[#f1c83d] pb-1">
-                        hello@ubarstone.com
+                      <a
+                        href="mailto:info@ubarstone.com"
+                        className="text-gray-400 hover:text-[#f1c83d] transition-colors border-b border-gray-700 hover:border-[#f1c83d] pb-1"
+                      >
+                        info@gmmc.om
                       </a>
                     </div>
                     <div className="bg-white/5 p-8 rounded border border-white/10 backdrop-blur-sm">
-                      <h5 className="text-white font-bold mb-2">Industrial Catalog 2026</h5>
-                      <p className="text-gray-400 text-sm mb-6">Technical specifications for Quicklime and Limestone variations.</p>
-                      <button className="w-full bg-[#f1c83d] text-black h-12 font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors">
-                        Download PDF (14MB)
-                      </button>
+                      <h5 className="text-white font-bold mb-2">
+                        Industrial Catalog 2026
+                      </h5>
+                      <p className="text-gray-400 text-sm mb-6">
+                        Technical specifications for Quicklime and Limestone
+                        variations.
+                      </p>
+                      <a
+                        href="/UbarStone2025.pdf"
+                        download="UbarStone_Catalogue_2025.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-[#f1c83d] text-black h-12 font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center cursor-pointer"
+                      >
+                        Download PDF (1MB)
+                      </a>
                     </div>
                   </motion.div>
                 </div>

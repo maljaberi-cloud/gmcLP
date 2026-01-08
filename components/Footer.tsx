@@ -10,9 +10,8 @@ import {
   Phone,
   Instagram,
   Linkedin,
-  Facebook,
   Twitter,
-  CheckCircle2,
+  Facebook,
 } from "lucide-react";
 
 // --- COLORS ---
@@ -26,7 +25,10 @@ const COLORS = {
 
 export default function HighEndFooter() {
   return (
-    <footer className="relative bg-white pt-0 pb-0 overflow-hidden font-sans border-t border-[#6a6931]/20">
+    <footer
+      id="contact"
+      className="relative bg-white pt-0 pb-0 overflow-hidden font-sans border-t border-[#6a6931]/20"
+    >
       {/* --- BACKGROUND DECORATION --- */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
         {/* Massive Watermark */}
@@ -45,14 +47,15 @@ export default function HighEndFooter() {
 
       <div className="relative z-10 container mx-auto px-4 lg:px-8 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[600px] border-l border-r border-[#6a6931]/10 bg-white/80 backdrop-blur-sm">
-
           {/* === COLUMN 1: THE BRAND & INFO (4 Cols) === */}
           <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-[#6a6931]/10 p-10 flex flex-col justify-between">
             <div>
               {/* Logo / Brand */}
               <div className="flex items-center gap-2 mb-8">
                 <div className="w-8 h-8 bg-[#f1c83d] rounded-sm flex items-center justify-center">
-                  <span className="font-serif font-bold text-black text-xl">G</span>
+                  <span className="font-serif font-bold text-black text-xl">
+                    G
+                  </span>
                 </div>
                 <span className="text-xl font-bold tracking-tight text-black">
                   GLOBAL MARBLE
@@ -60,8 +63,9 @@ export default function HighEndFooter() {
               </div>
 
               <p className="text-[#6a6931] leading-relaxed mb-12 max-w-sm">
-                Engineering nature’s finest materials into timeless architectural
-                masterpieces. Based in the Sultanate, serving the world.
+                Engineering nature’s finest materials into timeless
+                architectural masterpieces. Based in the Sultanate, serving the
+                world.
               </p>
 
               {/* Contact Details List */}
@@ -69,28 +73,48 @@ export default function HighEndFooter() {
                 <ContactItem
                   icon={<MapPin className="w-4 h-4" />}
                   label="Factory HQ"
-                  value="Raysut Industrial Estate, Dhofar, Oman"
+                  value="P.O. Box: 2 Salalah 210 Sultanate of Oman"
                 />
                 <ContactItem
                   icon={<Mail className="w-4 h-4" />}
                   label="Inquiries"
-                  value="projects@globalmarble.om"
+                  value="info@gmmc.om"
                   isLink
                 />
                 <ContactItem
                   icon={<Phone className="w-4 h-4" />}
                   label="Office"
-                  value="+968 2321 9999"
+                  value="+968 2313 2668"
                 />
               </ul>
             </div>
 
-            {/* Socials */}
+            {/* Socials - UPDATED HERE */}
             <div className="flex gap-4 mt-12 pt-8 border-t border-[#6a6931]/10">
-              {[Instagram, Linkedin, Twitter, Facebook].map((Icon, i) => (
+              {[
+                {
+                  Icon: Instagram,
+                  href: "https://www.instagram.com/ubarstone/",
+                },
+                {
+                  Icon: Linkedin,
+                  href: "https://om.linkedin.com/in/%D8%A7%D9%88%D8%A8%D8%A7%D8%B1-%D8%B3%D8%AA%D9%88%D9%86-ubar-stone-354510384",
+                },
+                {
+                  Icon: Twitter,
+                  href: "https://x.com/gmmcoman",
+                },
+                // Kept Facebook as placeholder '#' since no link provided
+                {
+                  Icon: Facebook,
+                  href: "facebook.com/share/1CL2DfGkAu",
+                },
+              ].map(({ Icon, href }, i) => (
                 <a
                   key={i}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 flex items-center justify-center rounded-full bg-[#f8f8f6] text-[#6a6931] hover:bg-[#f1c83d] hover:text-black transition-all duration-300"
                 >
                   <Icon size={18} />
@@ -115,7 +139,11 @@ export default function HighEndFooter() {
                 <FormInput label="First Name" placeholder="John" />
                 <FormInput label="Last Name" placeholder="Doe" />
               </div>
-              <FormInput label="Email Address" placeholder="john@company.com" type="email" />
+              <FormInput
+                label="Email Address"
+                placeholder="john@company.com"
+                type="email"
+              />
 
               <div className="space-y-2">
                 <label className="text-[10px] uppercase font-bold tracking-widest text-[#6a6931]">
@@ -129,7 +157,11 @@ export default function HighEndFooter() {
                 </select>
               </div>
 
-              <FormInput label="Message" placeholder="Tell us about your requirements..." isTextArea />
+              <FormInput
+                label="Message"
+                placeholder="Tell us about your requirements..."
+                isTextArea
+              />
 
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -151,9 +183,19 @@ export default function HighEndFooter() {
                 Sitemap
               </h4>
               <ul className="space-y-3">
-                {["Our Company", "Products", "Projects", "Sustainability", "Careers", "News"].map((item) => (
+                {[
+                  "Our Company",
+                  "Products",
+                  "Projects",
+                  "Sustainability",
+                  "Careers",
+                  "News",
+                ].map((item) => (
                   <li key={item}>
-                    <a href="#" className="group flex items-center justify-between text-[#1a1a1a] hover:text-[#f1c83d] transition-colors">
+                    <a
+                      href="#"
+                      className="group flex items-center justify-between text-[#1a1a1a] hover:text-[#f1c83d] transition-colors"
+                    >
                       <span className="font-medium">{item}</span>
                       <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                     </a>
@@ -166,25 +208,39 @@ export default function HighEndFooter() {
               <h4 className="text-xs font-bold text-[#6a6931] uppercase tracking-widest mb-4">
                 Downloads
               </h4>
-              <a href="#" className="block p-4 border border-[#6a6931]/20 hover:border-[#f1c83d] hover:bg-[#f1c83d]/5 transition-all group">
+              <a
+                href="/UbarStone2025.pdf"
+                download="UbarStone_Catalogue_2025.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block p-4 border border-[#6a6931]/20 hover:border-[#f1c83d] hover:bg-[#f1c83d]/5 transition-all group"
+              >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold text-[#1a1a1a]">Product Catalog</span>
+                  <span className="text-sm font-bold text-[#1a1a1a]">
+                    Product Catalog
+                  </span>
+                  {/* Ensure ArrowUpRight is imported from your icon library (e.g., lucide-react) */}
                   <ArrowUpRight className="w-4 h-4 text-[#6a6931] group-hover:text-[#f1c83d]" />
                 </div>
-                <p className="text-xs text-[#6a6931]">PDF • 12.5 MB</p>
+                <p className="text-xs text-[#6a6931]">PDF • 1 MB</p>
               </a>
             </div>
           </div>
-
         </div>
 
         {/* --- BOTTOM BAR --- */}
         <div className="flex flex-col md:flex-row justify-between items-center py-6 border-t border-[#6a6931]/10 text-xs text-[#6a6931] uppercase tracking-wider">
           <p>© {new Date().getFullYear()} Global Marble Co.</p>
           <div className="flex gap-6 mt-2 md:mt-0">
-            <a href="#" className="hover:text-[#f1c83d]">Privacy</a>
-            <a href="#" className="hover:text-[#f1c83d]">Terms</a>
-            <a href="#" className="hover:text-[#f1c83d]">Sitemap</a>
+            <a href="#" className="hover:text-[#f1c83d]">
+              Privacy
+            </a>
+            <a href="#" className="hover:text-[#f1c83d]">
+              Terms
+            </a>
+            <a href="#" className="hover:text-[#f1c83d]">
+              Sitemap
+            </a>
           </div>
         </div>
       </div>
@@ -204,7 +260,10 @@ const ContactItem = ({ icon, label, value, isLink }: any) => (
         {label}
       </p>
       {isLink ? (
-        <a href={`mailto:${value}`} className="text-[#1a1a1a] font-medium hover:text-[#f1c83d] transition-colors decoration-1 underline-offset-4 hover:underline">
+        <a
+          href={`mailto:${value}`}
+          className="text-[#1a1a1a] font-medium hover:text-[#f1c83d] transition-colors decoration-1 underline-offset-4 hover:underline"
+        >
           {value}
         </a>
       ) : (
@@ -214,14 +273,22 @@ const ContactItem = ({ icon, label, value, isLink }: any) => (
   </li>
 );
 
-const FormInput = ({ label, placeholder, type = "text", isTextArea = false }: any) => {
+const FormInput = ({
+  label,
+  placeholder,
+  type = "text",
+  isTextArea = false,
+}: any) => {
   const [focused, setFocused] = useState(false);
 
   return (
     <div className="relative group">
       <label
-        className={`absolute left-0 transition-all duration-300 ${focused ? "-top-5 text-[10px] text-[#f1c83d]" : "-top-5 text-[10px] text-[#6a6931]"
-          } font-bold uppercase tracking-widest`}
+        className={`absolute left-0 transition-all duration-300 ${
+          focused
+            ? "-top-5 text-[10px] text-[#f1c83d]"
+            : "-top-5 text-[10px] text-[#6a6931]"
+        } font-bold uppercase tracking-widest`}
       >
         {label}
       </label>

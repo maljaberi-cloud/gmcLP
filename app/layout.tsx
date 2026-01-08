@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
+    <html className="scroll-smooth">
       {/* ERROR FIX: No spaces or comments allowed here */}
       <body
         className={`${almarai.className} ${cinzel.variable} ${playfair.variable} antialiased bg-white text-rich-900 overflow-x-hidden`}
