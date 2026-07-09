@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Almarai, Cinzel, Playfair_Display } from "next/font/google";
+import { Cairo, Cinzel, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import Providers from "@/components/Providers";
 
-const almarai = Almarai({
-  subsets: ["arabic"],
-  weight: ["300", "400", "700", "800"],
-  variable: "--font-almarai",
+const cairo = Cairo({
+  subsets: ["arabic", "latin"],
+  weight: ["300", "400", "600", "700", "900"],
+  variable: "--font-cairo",
+  display: "swap",
 });
 
 const cinzel = Cinzel({
@@ -19,8 +21,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Ubar Stone",
-  description: "تجربة تسوق فاخرة بين يديك",
+  title: "Ubar Stone | أوبار ستون",
+  description: "Premium Omani Marble & Stone — 150 Million Year Legacy | رخام وحجر عُماني فاخر",
 };
 
 export default function RootLayout({
@@ -32,9 +34,9 @@ export default function RootLayout({
     <html className="scroll-smooth">
       {/* ERROR FIX: No spaces or comments allowed here */}
       <body
-        className={`${almarai.className} ${cinzel.variable} ${playfair.variable} antialiased bg-white text-rich-900 overflow-x-hidden`}
+        className={`${cairo.variable} ${cinzel.variable} ${playfair.variable} antialiased bg-white overflow-x-hidden`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -9,9 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ["var(--font-playfair)", "serif"], // New Luxury Serif Default
-        display: ["var(--font-cinzel)", "serif"], // New Luxury Display
-        "old-serif": ["ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"], // Preserved for Hero
+        serif: ["var(--font-playfair)", "serif"],
+        display: ["var(--font-cinzel)", "serif"],
+        cairo: ["var(--font-cairo)", "sans-serif"],
+        sans: ["var(--font-cairo)", "Arial", "Helvetica", "sans-serif"],
+        "old-serif": ["ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"],
       },
       colors: {
         rich: {

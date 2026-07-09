@@ -66,7 +66,7 @@ const NewsSquare = ({ item }: { item: (typeof NEWS_ITEMS)[0] }) => {
           alt={item.title}
           className="w-full h-full object-cover grayscale-[20%]"
           variants={{
-            hover: { scale: 1.1, grayscale: "0%" },
+            hover: { scale: 1.1 },
           }}
           transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }} // Cubic-bezier for smooth finish
         />

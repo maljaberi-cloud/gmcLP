@@ -8,37 +8,37 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import { Menu, X, ArrowRight, Download, Globe } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const UbarNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { scrollY } = useScroll();
+  const { t, language, setLanguage, isRTL } = useLanguage();
 
-  // --- INTELLIGENT SCROLL PHYSICS ---
   useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 50) {
-      setIsScrolled(true);
-    } else {
-      setIsScrolled(false);
-    }
+    setIsScrolled(latest > 50);
   });
 
-  // Toggle Body Scroll Lock when menu is open
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
   }, [isMenuOpen]);
 
-  // --- DATA --- nothing that will ever show us in a core business or a building that might or might not be applicable by those whom enter the main plan that consist of us in various ways like us being silly with our time, not much time until we reliase that we are victims of the main Philosphy!! thats the issue that make us invisiblae
   const NAV_LINKS = [
-    { name: "About Us", href: "#aboutUs" },
-    { name: "Our Products", href: "#products" },
-    { name: "Industrial Core", href: "#industrial" },
-    { name: "Contact Us", href: "#contact" },
+    { name: t.navbar.about, href: "#aboutUs" },
+    { name: t.navbar.products, href: "#products" },
+    { name: t.navbar.industrial, href: "#industrial" },
+    { name: t.navbar.contact, href: "#contact" },
   ];
+
+  const MENU_ITEMS = [
+    { title: t.navbar.home, sub: t.navbar.homeSub, href: "#home" },
+    { title: t.navbar.brandNarrative, sub: t.navbar.brandNarrativeSub, href: "#aboutUs" },
+    { title: t.navbar.collection, sub: t.navbar.collectionSub, href: "#products" },
+    { title: t.navbar.industrialCore, sub: t.navbar.industrialCoreSub, href: "#industrial" },
+  ];
+
+  const toggleLanguage = () => setLanguage(language === "en" ? "ar" : "en");
 
   return (
     <>
@@ -78,7 +78,7 @@ const UbarNavbar = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="relative text-xs uppercase tracking-[0.15em] font-bold text-[#6a6931] hover:text-[#1a1a1a] transition-colors group py-2"
+                className="relative text-xs uppercase tracking-[0.15em] font-bold text-[#6a6931] hover:text-[#1a1a1a] transition-colors group py-2 font-cairo"
               >
                 {link.name}
                 <span className="absolute -bottom-1 left-1/2 w-1.5 h-1.5 bg-[#f1c83d] rounded-full transform -translate-x-1/2 scale-0 group-hover:scale-100 transition-transform duration-300 ease-back-out" />
@@ -87,28 +87,43 @@ const UbarNavbar = () => {
           </div>
 
           {/* 3. THE ACTION STACK (Right Side) */}
-          <div className="flex items-center gap-2 md:gap-6 z-50">
-            {/* Download Button (with the NEW MEGA SHADOW) */}
-            <motion.a
-              href="/UbarStone2025.pdf" // Path to public file
-              download="UbarStone_Catalogue_2025.pdf" // Professional rename
-              target="_blank" // Security best practice
-              rel="noopener noreferrer" // Security best practice
+          <div className="flex items-center gap-2 md:gap-4 z-50">
+            {/* Language Toggle Button */}
+            <motion.button
+              onClick={toggleLanguage}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              // UPDATED SHADOW HERE vvv
-              className={`hidden md:flex items-center gap-3 px-5 py-2.5 rounded-sm transition-all duration-500 border group cursor-pointer
+              className={`hidden md:flex items-center gap-1.5 px-4 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest transition-all duration-500 border font-cairo
+                ${isMenuOpen
+                  ? "border-white/20 text-white/60 hover:text-white"
+                  : isScrolled
+                    ? "border-[#6a6931]/20 text-[#6a6931] hover:border-[#f1c83d] hover:text-[#1a1a1a]"
+                    : "bg-white/10 border-white/20 text-white backdrop-blur-sm hover:bg-white hover:text-[#1a1a1a]"
+                }`}
+            >
+              <Globe size={11} />
+              {language === "en" ? t.navbar.toggleAr : t.navbar.toggleEn}
+            </motion.button>
+
+            {/* Download Catalog Button */}
+            <motion.a
+              href="/UbarStone2025.pdf"
+              download="UbarStone_Catalogue_2025.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`hidden md:flex items-center gap-3 px-5 py-2.5 rounded-sm transition-all duration-500 border group cursor-pointer font-cairo
     ${
       isScrolled
         ? "bg-[#1a1a1a] border-[#1a1a1a] text-white shadow-none"
-        : // The new, deeper, blurrier, more spread shadow:
-          "bg-white border-white text-[#1a1a1a] shadow-[0_40px_90px_-10px_rgba(0,0,0,0.25)]"
+        : "bg-white border-white text-[#1a1a1a] shadow-[0_40px_90px_-10px_rgba(0,0,0,0.25)]"
     }
     ${isMenuOpen ? "opacity-0 pointer-events-none" : "opacity-100"}
   `}
             >
               <span className="text-[10px] font-bold uppercase tracking-widest">
-                Catalog
+                {t.navbar.catalog}
               </span>
               <div
                 className={`w-px h-3 ${isScrolled ? "bg-white/20" : "bg-black/10"}`}
@@ -121,11 +136,6 @@ const UbarNavbar = () => {
 
             {/* The Trigger (Hamburger) */}
             <div className="flex items-center gap-4">
-              <span
-                className={`hidden md:block text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${isMenuOpen ? "text-white/50" : "text-[#6a6931]"}`}
-              >
-                {isMenuOpen ? "" : ""}
-              </span>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className={`relative w-12 h-12 flex items-center justify-center rounded-full border transition-all duration-500 overflow-hidden group
@@ -134,8 +144,7 @@ const UbarNavbar = () => {
                         ? "border-white/20 bg-white/10 text-white rotate-90"
                         : isScrolled
                           ? "border-[#6a6931]/20 hover:border-[#f1c83d] text-[#1a1a1a]"
-                          : // Added a softer shadow here too for consistency
-                            "bg-white text-[#1a1a1a] border-transparent shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)]"
+                          : "bg-white text-[#1a1a1a] border-transparent shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)]"
                     }
                 `}
               >
@@ -151,7 +160,7 @@ const UbarNavbar = () => {
         </div>
       </motion.nav>
 
-      {/* --- CINEMATIC FULLSCREEN MENU (Unchanged) --- */}
+      {/* --- CINEMATIC FULLSCREEN MENU --- */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -161,7 +170,6 @@ const UbarNavbar = () => {
             transition={{ duration: 0.4 }}
             className="fixed inset-0 z-40 bg-[#0f0f0f] flex flex-col justify-center overflow-hidden"
           >
-            {/* ... (The rest of the menu code is the same as before) ... */}
             <div
               className="absolute inset-0 opacity-[0.07]"
               style={{
@@ -180,37 +188,11 @@ const UbarNavbar = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 h-auto items-center">
                 <div className="lg:col-span-7 flex flex-col space-y-2">
                   <div className="mb-8 pl-1"></div>
-                  {[
-                    // 1. HOME: Usually the top of the page.
-                    // Ensure your Hero/Top section has id="home"
-                    {
-                      title: "Home",
-                      sub: "Back to surface",
-                      href: "#home",
-                    },
-                    // 2. BRAND NARRATIVE: Matches the section we worked on earlier
-                    {
-                      title: "Brand Narrative",
-                      sub: "Our history & ethos",
-                      href: "#aboutUs",
-                    },
-                    // 3. COLLECTION: You need a section with id="collection"
-                    {
-                      title: "The Collection",
-                      sub: "Fanar, Morooj, Reedan",
-                      href: "#products",
-                    },
-                    // 4. INDUSTRIAL: You need a section with id="industrial"
-                    {
-                      title: "Industrial Core",
-                      sub: "Quicklime & Limestone",
-                      href: "#industrial",
-                    },
-                  ].map((item, i) => (
+                  {MENU_ITEMS.map((item, i) => (
                     <motion.a
                       key={i}
-                      href={item.href} // UPDATED: Now uses the specific ID
-                      onClick={() => setIsMenuOpen(false)} // Closes menu when clicked
+                      href={item.href}
+                      onClick={() => setIsMenuOpen(false)}
                       initial={{ opacity: 0, x: -50 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -30 }}
@@ -225,12 +207,12 @@ const UbarNavbar = () => {
                         <span className="font-mono text-xs text-white/30 group-hover:text-[#f1c83d] transition-colors">
                           0{i + 1}
                         </span>
-                        <span className="block text-4xl md:text-6xl font-serif text-white group-hover:text-[#f1c83d] transition-colors duration-300">
+                        <span className="block text-4xl md:text-6xl font-serif text-white group-hover:text-[#f1c83d] transition-colors duration-300 font-cairo">
                           {item.title}
                         </span>
                       </div>
                       <div className="hidden md:flex items-center gap-4 overflow-hidden">
-                        <span className="text-sm text-gray-500 font-light translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
+                        <span className="text-sm text-gray-500 font-light translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 font-cairo">
                           {item.sub}
                         </span>
                         <ArrowRight className="text-[#f1c83d] -translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300" />
@@ -239,7 +221,7 @@ const UbarNavbar = () => {
                   ))}
                 </div>
 
-                {/* Right Column (unchanged) */}
+                {/* Right Column */}
                 <div className="lg:col-span-5 hidden lg:flex flex-col justify-between h-full pl-20 border-l border-white/5 py-10">
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -248,39 +230,45 @@ const UbarNavbar = () => {
                     className="space-y-12"
                   >
                     <div>
-                      <h4 className="flex items-center gap-2 text-[#6a6931] text-xs uppercase tracking-widest mb-6 font-bold">
-                        <Globe size={14} /> Global HQ
+                      <h4 className="flex items-center gap-2 text-[#6a6931] text-xs uppercase tracking-widest mb-6 font-bold font-cairo">
+                        <Globe size={14} /> {t.navbar.globalHQ}
                       </h4>
-                      <p className="text-2xl text-white font-serif leading-snug mb-2">
-                        Rusayl Industrial Estate
-                        <br />
-                        Muscat, Oman
+                      <p className="text-2xl text-white font-serif leading-snug mb-2 font-cairo whitespace-pre-line">
+                        {t.navbar.hqAddress}
                       </p>
                       <a
-                        href="mailto:info@ubarstone.com"
+                        href={`mailto:${t.navbar.hqEmail}`}
                         className="text-gray-400 hover:text-[#f1c83d] transition-colors border-b border-gray-700 hover:border-[#f1c83d] pb-1"
                       >
-                        info@gmmc.om
+                        {t.navbar.hqEmail}
                       </a>
                     </div>
                     <div className="bg-white/5 p-8 rounded border border-white/10 backdrop-blur-sm">
-                      <h5 className="text-white font-bold mb-2">
-                        Industrial Catalog 2026
+                      <h5 className="text-white font-bold mb-2 font-cairo">
+                        {t.navbar.catalogCard}
                       </h5>
-                      <p className="text-gray-400 text-sm mb-6">
-                        Technical specifications for Quicklime and Limestone
-                        variations.
+                      <p className="text-gray-400 text-sm mb-6 font-cairo">
+                        {t.navbar.catalogCardSub}
                       </p>
                       <a
                         href="/UbarStone2025.pdf"
                         download="UbarStone_Catalogue_2025.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full bg-[#f1c83d] text-black h-12 font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center cursor-pointer"
+                        className="w-full bg-[#f1c83d] text-black h-12 font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center cursor-pointer font-cairo"
                       >
-                        Download PDF (1MB)
+                        {t.navbar.downloadPDF}
                       </a>
                     </div>
+
+                    {/* Language Toggle in Menu */}
+                    <button
+                      onClick={toggleLanguage}
+                      className="flex items-center gap-3 text-white/40 hover:text-[#f1c83d] transition-colors text-xs uppercase tracking-widest font-bold font-cairo"
+                    >
+                      <Globe size={14} />
+                      {language === "en" ? "عربي" : "English"}
+                    </button>
                   </motion.div>
                 </div>
               </div>

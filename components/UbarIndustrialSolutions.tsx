@@ -2,64 +2,34 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowUpRight,
-  Target,
-  ScanLine,
-  Crosshair as CrosshairIcon, // Renamed to avoid collision
-} from "lucide-react";
+import { ArrowUpRight, Target, ScanLine } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
-// --- CONFIGURATION & DATA ---
 const COLORS = {
   primary: "#f1c83d",
   secondary: "#6a6931",
   grid: "#e5e5e5",
 };
 
-const PRODUCTS = [
-  {
-    id: "01",
-    name: "Quicklime",
-    chemical: "CaO",
-    sub: "Calcium Oxide",
-    desc: "High-purity calcination for metallurgy and chemical synthesis. Essential for modern industrial applications.",
-    stats: [
-      { label: "Color", value: "Bright White" },
-      { label: "Finishes", value: "Powder / Granules" },
-      { label: "Composition", value: "CaO >90%" },
-      { label: "Sizes", value: "5 – 100 Microns" },
-    ],
-    tags: ["Construction", "Iron & Steel", "Water Treatment", "Chemical"],
-    image:
-      "https://images.squarespace-cdn.com/content/v1/6422484f3673e900810e7e47/bcbcf7bd-97a1-43ab-80c1-276f86fe4ee9/Renaissance+Lime+Putty+image.jpg",
-  },
-  {
-    id: "02",
-    name: "Limestone",
-    chemical: "CaCO₃",
-    sub: "Calcium Carbonate",
-    desc: "Micronized mineral fillers for construction and agriculture. Extracted from high-grade sedimentary deposits.",
-    stats: [
-      { label: "Color", value: "White / Beige" },
-      { label: "Finishes", value: "Crushed / Micronized" },
-      { label: "Composition", value: "CaCO₃ >98%" },
-      { label: "Sizes", value: "0 – 5 mm" },
-    ],
-    tags: ["Construction", "Agriculture", "Plastics", "Glass Mfg"],
-    image:
-      "https://www.surreymarbleandgranite.co.uk/wp-content/uploads/2018/09/Natural_Limestone.jpg",
-  },
-];
+const Crosshair = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+    <line x1="12" y1="0" x2="12" y2="24" />
+    <line x1="0" y1="12" x2="24" y2="12" />
+    <circle cx="12" cy="12" r="8" strokeDasharray="2 2" />
+  </svg>
+);
 
 const IndustrialPhenomenon = () => {
-  const [activeId, setActiveId] = useState(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const { t } = useLanguage();
+  const products = t.industrial.products;
 
   return (
     <section
       id="industrial"
       className="relative w-full min-h-screen bg-white font-sans selection:bg-[#f1c83d] selection:text-black overflow-hidden py-20 lg:py-32"
     >
-      {/* --- STATIC BACKGROUND (Zero Calculation Cost) --- */}
+      {/* Static Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div
           className="w-full h-full opacity-40"
@@ -68,21 +38,17 @@ const IndustrialPhenomenon = () => {
             backgroundSize: "60px 60px",
           }}
         />
-        <div className="absolute top-10 left-10 text-[#6a6931]/30">
-          <Crosshair />
-        </div>
-        <div className="absolute bottom-10 right-10 text-[#6a6931]/30">
-          <Crosshair />
-        </div>
+        <div className="absolute top-10 left-10 text-[#6a6931]/30"><Crosshair /></div>
+        <div className="absolute bottom-10 right-10 text-[#6a6931]/30"><Crosshair /></div>
       </div>
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10 h-full flex flex-col">
-        {/* --- HEADER --- */}
+        {/* HEADER */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20 border-b border-[#6a6931]/20 pb-12">
           <div className="lg:col-span-2 flex flex-col justify-between h-full">
-            <div className="flex items-center gap-2 text-[#6a6931] font-mono text-xs uppercase tracking-widest font-bold">
+            <div className="flex items-center gap-2 text-[#6a6931] font-mono text-xs uppercase tracking-widest font-bold font-cairo">
               <ScanLine className="w-4 h-4" />
-              <span>Mat.Eng-Sys</span>
+              <span>{t.industrial.badge}</span>
             </div>
           </div>
           <div className="lg:col-span-6">
@@ -91,23 +57,22 @@ const IndustrialPhenomenon = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-5xl lg:text-7xl font-serif text-[#1a1a1a] leading-[0.95] tracking-tighter"
+              className="text-5xl lg:text-7xl font-serif text-[#1a1a1a] leading-[0.95] tracking-tighter font-cairo"
             >
-              Industry starts <br />
-              <span className="italic text-[#6a6931]">at the molecule.</span>
+              {t.industrial.headlineA} <br />
+              <span className="italic text-[#6a6931]">{t.industrial.headlineB}</span>
             </motion.h1>
           </div>
           <div className="lg:col-span-4 flex flex-col justify-end">
-            <p className="text-[#6a6931] text-lg leading-relaxed max-w-sm ml-auto">
-              Extracting potential from the earth. Precision-processed minerals
-              forming the bedrock of modern manufacturing.
+            <p className="text-[#6a6931] text-lg leading-relaxed max-w-sm ml-auto font-cairo">
+              {t.industrial.description}
             </p>
           </div>
         </div>
 
-        {/* --- OPTIMIZED CARD DISPLAY --- */}
+        {/* CARD DISPLAY */}
         <div className="flex flex-col lg:flex-row h-auto lg:h-[650px] gap-2 lg:gap-0">
-          {PRODUCTS.map((product, index) => (
+          {products.map((product, index) => (
             <MaterialCard
               key={product.id}
               data={product}
@@ -115,7 +80,7 @@ const IndustrialPhenomenon = () => {
               isPeerActive={activeId !== null && activeId !== product.id}
               onHover={() => setActiveId(product.id)}
               onLeave={() => setActiveId(null)}
-              index={index}
+              exploreLabel={t.industrial.exploreSpecs}
             />
           ))}
         </div>
@@ -124,34 +89,44 @@ const IndustrialPhenomenon = () => {
   );
 };
 
-// --- COMPONENT: THE MATERIAL CARD (OPTIMIZED) ---
-const MaterialCard = ({ data, isActive, isPeerActive, onHover, onLeave }) => {
+const MaterialCard = ({
+  data,
+  isActive,
+  isPeerActive,
+  onHover,
+  onLeave,
+  exploreLabel,
+}: {
+  data: any;
+  isActive: any;
+  isPeerActive: any;
+  onHover: any;
+  onLeave: any;
+  exploreLabel: string;
+}) => {
   return (
-    // OPTIMIZATION 1: Removed 'layout' prop.
-    // Using CSS 'transition-all' for smooth flex resizing.
     <div
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
       className={`
         relative group overflow-hidden border-r border-l border-t lg:border-t-0 border-b border-[#6a6931]/20
-        ${
-          isActive
-            ? "lg:flex-[3]"
-            : isPeerActive
-              ? "lg:flex-[1] grayscale brightness-90"
-              : "lg:flex-[1]"
-        }
+        ${isActive ? "lg:flex-[3]" : isPeerActive ? "lg:flex-[1] grayscale brightness-90" : "lg:flex-[1]"}
         h-[500px] lg:h-auto flex flex-col transition-all duration-500 ease-in-out cursor-default
         bg-white
       `}
     >
       {/* 1. BACKGROUND IMAGE LAYER */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* OPTIMIZATION 2: Simple Opacity Fade instead of complex layout animations */}
+        {/* Inactive State: Just Grid Background */}
         <div
-          className={`absolute inset-0 transition-opacity duration-700 ${isActive ? "opacity-100" : "opacity-0"}`}
-        >
-          {/* OPTIMIZATION 3: Async decoding and eager loading to prevent flash */}
+          className={`absolute inset-0 transition-opacity duration-700 ${isActive ? "opacity-0" : "opacity-100"}`}
+          style={{
+            backgroundImage: `linear-gradient(${COLORS.grid} 1px, transparent 1px), linear-gradient(90deg, ${COLORS.grid} 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        {/* Active State: Product Image */}
+        <div className={`absolute inset-0 transition-opacity duration-700 ${isActive ? "opacity-100" : "opacity-0"}`}>
           <img
             src={data.image}
             alt={data.name}
@@ -168,27 +143,22 @@ const MaterialCard = ({ data, isActive, isPeerActive, onHover, onLeave }) => {
         <div className="flex items-center gap-3">
           <span
             className={`font-mono text-sm font-bold px-2 py-1 rounded transition-colors ${
-              isActive
-                ? "bg-[#f1c83d] text-black"
-                : "bg-[#6a6931]/10 text-[#6a6931]"
+              isActive ? "bg-[#f1c83d] text-black" : "bg-[#6a6931]/10 text-[#6a6931]"
             }`}
           >
             {data.id}
           </span>
           <span
-            className={`font-mono text-xs uppercase tracking-widest transition-colors ${
+            className={`font-mono text-xs uppercase tracking-widest transition-colors font-cairo ${
               isActive ? "text-white/70" : "text-gray-400"
             }`}
           >
             {data.sub}
           </span>
         </div>
-        {/* CSS Rotate is cheaper than JS rotate */}
         <div
           className={`w-8 h-8 flex items-center justify-center rounded-full border transition-all duration-300 ${
-            isActive
-              ? "rotate-45 border-white/30 bg-white/10 text-[#f1c83d]"
-              : "rotate-0 border-gray-200 text-gray-400"
+            isActive ? "rotate-45 border-white/30 bg-white/10 text-[#f1c83d]" : "rotate-0 border-gray-200 text-gray-400"
           }`}
         >
           <ArrowUpRight className="w-4 h-4" />
@@ -201,26 +171,22 @@ const MaterialCard = ({ data, isActive, isPeerActive, onHover, onLeave }) => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none">
           <span
             className={`text-8xl lg:text-9xl font-black tracking-tighter transition-all duration-700 ${
-              isActive
-                ? "text-white opacity-[0.1] scale-110 -translate-y-12"
-                : "text-[#6a6931] opacity-[0.05] scale-100 translate-y-0"
+              isActive ? "text-white opacity-[0.1] scale-110 -translate-y-12" : "text-[#6a6931] opacity-[0.05] scale-100 translate-y-0"
             }`}
           >
             {data.chemical}
           </span>
         </div>
 
-        {/* Text Content */}
         <div className="relative z-10">
           <h2
-            className={`text-4xl lg:text-6xl font-serif mb-4 transition-colors duration-300 ${
+            className={`text-4xl lg:text-6xl font-serif mb-4 transition-colors duration-300 font-cairo ${
               isActive ? "text-white" : "text-[#1a1a1a]"
             }`}
           >
             {data.name}
           </h2>
 
-          {/* OPTIMIZATION 4: AnimatePresence allows smooth entry/exit of DOM nodes */}
           <AnimatePresence>
             {isActive && (
               <motion.div
@@ -231,28 +197,26 @@ const MaterialCard = ({ data, isActive, isPeerActive, onHover, onLeave }) => {
                 className="overflow-hidden"
               >
                 <div className="pt-4 border-t border-white/20">
-                  <p className="text-gray-300 text-lg mb-8 max-w-lg font-light leading-relaxed">
+                  <p className="text-gray-300 text-lg mb-8 max-w-lg font-light leading-relaxed font-cairo">
                     {data.desc}
                   </p>
 
                   <div className="grid grid-cols-2 gap-8 mb-8">
-                    {data.stats.map((stat, i) => (
+                    {data.stats.map((stat: any, i: number) => (
                       <div key={i}>
-                        <p className="text-xs text-[#f1c83d] uppercase tracking-widest font-bold mb-1">
+                        <p className="text-xs text-[#f1c83d] uppercase tracking-widest font-bold mb-1 font-cairo">
                           {stat.label}
                         </p>
-                        <p className="text-xl font-mono text-white">
-                          {stat.value}
-                        </p>
+                        <p className="text-xl font-mono text-white">{stat.value}</p>
                       </div>
                     ))}
                   </div>
 
                   <div className="flex flex-wrap gap-2">
-                    {data.tags.map((tag, i) => (
+                    {data.tags.map((tag: any, i: number) => (
                       <span
                         key={i}
-                        className="px-3 py-1 rounded-full border border-white/20 text-xs text-white uppercase tracking-wider hover:bg-white hover:text-black transition-colors cursor-default"
+                        className="px-3 py-1 rounded-full border border-white/20 text-xs text-white uppercase tracking-wider hover:bg-white hover:text-black transition-colors cursor-default font-cairo"
                       >
                         {tag}
                       </span>
@@ -263,44 +227,24 @@ const MaterialCard = ({ data, isActive, isPeerActive, onHover, onLeave }) => {
             )}
           </AnimatePresence>
 
-          {/* Idle State "Click to Explore" hint */}
+          {/* Idle State Hint */}
           <div
-            className={`mt-4 flex items-center gap-2 text-[#6a6931] font-medium text-sm transition-opacity duration-300 ${
-              isActive
-                ? "opacity-0"
-                : "opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
+            className={`mt-4 flex items-center gap-2 text-[#6a6931] font-medium text-sm transition-opacity duration-300 font-cairo ${
+              isActive ? "opacity-0" : "opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
             }`}
           >
             <Target className="w-4 h-4" />
-            <span>Explore Specs</span>
+            <span>{exploreLabel}</span>
           </div>
         </div>
       </div>
 
       {/* Decorative Active Bar */}
       <div
-        className={`absolute bottom-0 left-0 h-2 bg-[#f1c83d] transition-all duration-500 ease-out ${
-          isActive ? "w-full" : "w-0"
-        }`}
+        className={`absolute bottom-0 left-0 h-2 bg-[#f1c83d] transition-all duration-500 ease-out ${isActive ? "w-full" : "w-0"}`}
       />
     </div>
   );
 };
-
-// --- UTILS ---
-const Crosshair = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1"
-  >
-    <line x1="12" y1="0" x2="12" y2="24" />
-    <line x1="0" y1="12" x2="24" y2="12" />
-    <circle cx="12" cy="12" r="8" strokeDasharray="2 2" />
-  </svg>
-);
 
 export default IndustrialPhenomenon;

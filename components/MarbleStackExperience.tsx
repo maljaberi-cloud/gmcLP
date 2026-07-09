@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Maximize2, MoveRight } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 // --- DATA ---
 interface MarbleProduct {
@@ -94,6 +95,7 @@ export default function MarbleGalleryMinimal() {
   const [activeId, setActiveId] = useState<number>(marbleProducts[0].id);
   const activeProduct =
     marbleProducts.find((p) => p.id === activeId) || marbleProducts[0];
+  const { t } = useLanguage();
 
   return (
     <div className="bg-stone-50 py-24 border-t border-stone-200 text-[#111] min-h-screen w-full flex flex-col font-sans selection:bg-amber-600 selection:text-white pb-20">
@@ -161,8 +163,8 @@ export default function MarbleGalleryMinimal() {
             <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
               <div className="flex gap-8 bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl shadow-lg border border-white/50">
                 <div>
-                  <div className="text-[10px] uppercase text-gray-400 font-bold tracking-widest mb-1">
-                    Density
+                  <div className="text-[10px] uppercase text-gray-400 font-bold tracking-widest mb-1 font-cairo">
+                    {t.marbleStack.density}
                   </div>
                   <div className="font-mono text-sm">
                     {activeProduct.specs.density}
@@ -170,8 +172,8 @@ export default function MarbleGalleryMinimal() {
                 </div>
                 <div className="w-[1px] bg-gray-300 h-8 self-center" />
                 <div>
-                  <div className="text-[10px] uppercase text-gray-400 font-bold tracking-widest mb-1">
-                    Finish
+                  <div className="text-[10px] uppercase text-gray-400 font-bold tracking-widest mb-1 font-cairo">
+                    {t.marbleStack.finish}
                   </div>
                   <div className="font-mono text-sm">
                     {activeProduct.specs.finish}
@@ -189,11 +191,11 @@ export default function MarbleGalleryMinimal() {
         {/* === RIGHT COLUMN: NAVIGATION / INDEX === */}
         <div className="lg:col-span-4 flex flex-col h-full lg:pl-8 border-l border-gray-200/60 lg:min-h-[80vh]">
           <div className="mb-8 flex items-end justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">
-              Stone Library
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 font-cairo">
+              {t.marbleStack.stoneLibrary}
             </h3>
-            <span className="font-serif italic text-gray-400">
-              Select Material
+            <span className="font-serif italic text-gray-400 font-cairo">
+              {t.marbleStack.selectMaterial}
             </span>
           </div>
 
@@ -254,8 +256,8 @@ export default function MarbleGalleryMinimal() {
           {/* CTA at bottom of right col */}
           <div className="mt-auto pt-12">
             <button className="group w-full py-5 bg-[#111] text-white rounded-xl flex items-center justify-between px-8 hover:bg-[#f1c83d] transition-colors duration-500">
-              <span className="font-mono text-xs uppercase tracking-widest">
-                Download Catalog
+              <span className="font-mono text-xs uppercase tracking-widest font-cairo">
+                {t.marbleStack.downloadCatalog}
               </span>
               <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform duration-300" />
             </button>
